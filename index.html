@@ -15,23 +15,33 @@
       </form>
       <div id="options" style="display:none">
           <p>Download All Project Assets:</p>
-          <button type="button" name="button" id="trimm_install">Trimm Pull</button>
+          <button type="button" name="button" id="trimm_pull">Trimm Pull</button>
           <p>Download New Asset:</p>
-          <input type="text" name="" value="" placeholder="username/bundlename">
-          <button type="button" name="button">Trimm Install</button>
+          <input type="text" id="bundlename"placeholder="username/bundlename">
+          <button type="button" name="button" id="trimm_install">Trimm Install</button>
       </div>
    </body>
    <script type="text/javascript">
        var textEncoding = require('text-encoding');
        var TextDecoder = textEncoding.TextDecoder;
        let $ = require('jquery')
-       $('#trimm_install').on('click', function() {
-           if ($('#file-input').text() == "") {
-               $('#current').html("<b>Please select a file!</b>");
-               return;
-           }
+       $('#trimm_pull').on('click', function() {
+           //trimm pull
            var spawn = require('child_process').spawn;
-           var py = spawn('python', ['./Trimm-CLI-master/trimm.py', 'pull', $('#file-input').text()])
+           var py = spawn('python', ['./Trimm-CLI-master/trimm.py', 'pull', $('#file-input').text()]);
+           py.stdout.on('data', function(data){
+               var response = new TextDecoder("utf-8").decode(data);
+               console.log(response);
+           });
+           py.stderr.on('data', function(data) {
+                console.error(data.toString());
+           });
+       });
+
+       $('#trimm_install').on('click', function() {
+           //trimm install
+           var spawn = require('child_process').spawn;
+           var py = spawn('python', ['./Trimm-CLI-master/trimm.py', 'install', $('#file-input').text(), $('#bundlename').val()]);
            py.stdout.on('data', function(data){
                var response = new TextDecoder("utf-8").decode(data);
                console.log(response);
@@ -39,6 +49,7 @@
            py.stderr.on('data', function(data) {
                 console.error(data.toString());
             });
+
        });
 
        $('#choose-file').on('click', function() {
@@ -47,6 +58,6 @@
            $('#file-input').text(filepath[0] + "/");
            $('#current').html("<b>Currrent Directory: " + filepath[0] + "/</b>");
            $('#options').css('display', 'block');
-       })
+       });
        </script>
 </html>
