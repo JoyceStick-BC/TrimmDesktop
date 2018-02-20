@@ -6,24 +6,10 @@ import shutil
 import trimm_helper
 import sys
 
-@click.group()
-def cli():
-    pass
-
-
-@cli.command()
-@click.option('--bundlename', prompt='Please enter your name/package', help='Your package name in format name/package.')
-@click.option('--path', help='Absolute path to install packages. Defaults to currentDir/Assets/vendor.')
-@click.option('--version', help='Version number for package.')
 def install(bundlename, path, version):
     if not trimm_helper.check_if_installed(bundlename, path, version):
         trimm_helper.download(bundlename, version, path)
 
-
-@cli.command()
-@click.option('--bundlename', prompt='Please enter your name/package', help='Your package name in format name/package.')
-@click.option('--path', help='Absolute path to locate info.json. Defaults to currentDir/Assets/vendor.')
-@click.option('--version', help='Version number for package.')
 def update(bundlename, path, version):
     if path is None:
         path = trimm_helper.set_path()
@@ -44,9 +30,6 @@ def update(bundlename, path, version):
             if not trimm_helper.check_if_installed(bundlename, path, version):
                 trimm_helper.download(bundlename, version, path)
 
-
-@cli.command()
-@click.option('--path', help='Absolute path to locate info.json. Defaults to currentDir/Assets/vendor.')
 def pull(path):
     if path is None:
         path = trimm_helper.set_path()
@@ -63,9 +46,6 @@ def pull(path):
             if not trimm_helper.check_if_installed(bundlename, path, None):  # , version): TODO READD version support
                 trimm_helper.download(bundlename, None, path)
 
-
-@cli.command()
-@click.option('--path', help='Absolute path to locate info.json. Defaults to currentDir/Assets/vendor.')
 def delete(path):
     if path is None:
         path = trimm_helper.set_path()
@@ -85,9 +65,6 @@ def delete(path):
                 if not os.listdir(new_path):
                     os.rmdir(new_path)
 
-
-@cli.command()
-@click.option('--path', help='Absolute path to locate info.json. Defaults to currentDir/Assets/vendor.')
 def make_zips(path):
     if path is None:
         path = trimm_helper.set_path()
@@ -129,7 +106,6 @@ def make_zips(path):
                 if os.path.isdir(item_path):
                     shutil.rmtree(item_path)
 
-print sys.argv[1]
-
-if __name__ == '__main__':
-    cli()
+#download bundles
+if sys.argv[1] == 'pull':
+    pull(sys.argv[2])

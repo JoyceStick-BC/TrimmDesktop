@@ -11,7 +11,8 @@
       <p>Select project directory</p>
       <p>Current Directory: </p>
       <form action="index.html" id="form">
-          <input type="file" id="file-input" webkitdirectory directory/>
+          <button type="button" id="choose-file">Select File</button>
+          <p id="file-input"></p>
       </form>
    </body>
    <script type="text/javascript">
@@ -19,12 +20,25 @@
        var TextDecoder = textEncoding.TextDecoder;
        let $ = require('jquery')
        $('#trimm_install').on('click', function() {
+           if ($('#file-input').text() == "") {
+               $('#file-input').text("Please select a file!");
+               return;
+           }
            var spawn = require('child_process').spawn;
-           var py = spawn('python', ['./Trimm-CLI-master/trimm.py', 'pull', $('#file-input').val()])
+           var py = spawn('python', ['./Trimm-CLI-master/trimm.py', 'pull', $('#file-input').text()])
            py.stdout.on('data', function(data){
                var response = new TextDecoder("utf-8").decode(data);
                console.log(response);
            });
+           py.stderr.on('data', function(data) {
+                console.error(data.toString());
+            });
        });
-   </script>
+
+       $('#choose-file').on('click', function() {
+           const {dialog} = require('electron').remote;
+           var filepath = dialog.showOpenDialog({properties: ['openFile', 'openDirectory', 'multiSelections']});
+           $('#file-input').text(filepath[0] + "/");
+       })
+       </script>
 </html>
