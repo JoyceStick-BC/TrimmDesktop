@@ -7,15 +7,24 @@
 
    <body>
       <h1>Trimm Desktop</h1>
-      <button type="button" name="button" id="trimm_install">Install Bundles</button>
+      <button type="button" name="button" id="trimm_install">Trimm Pull</button>
       <p>Select project directory</p>
       <p>Current Directory: </p>
-     <input type="file" id="file-input" webkitdirectory directory/>
+      <form action="index.html" id="form">
+          <input type="file" id="file-input" webkitdirectory directory/>
+      </form>
    </body>
    <script type="text/javascript">
+       var textEncoding = require('text-encoding');
+       var TextDecoder = textEncoding.TextDecoder;
        let $ = require('jquery')
        $('#trimm_install').on('click', function() {
-           
+           var spawn = require('child_process').spawn;
+           var py = spawn('python', ['./Trimm-CLI-master/trimm.py', 'pull', $('#file-input').val()])
+           py.stdout.on('data', function(data){
+               var response = new TextDecoder("utf-8").decode(data);
+               console.log(response);
+           });
        });
    </script>
 </html>
