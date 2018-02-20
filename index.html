@@ -7,13 +7,19 @@
 
    <body>
       <h1>Trimm Desktop</h1>
-      <button type="button" name="button" id="trimm_install">Trimm Pull</button>
-      <p>Select project directory</p>
-      <p>Current Directory: </p>
+      <p>Select project directory:</p>
+      <p id="current"><b>No Current Directory Selected</b></p>
       <form action="index.html" id="form">
           <button type="button" id="choose-file">Select File</button>
-          <p id="file-input"></p>
+          <p id="file-input" style="display:none"></p>
       </form>
+      <div id="options" style="display:none">
+          <p>Download All Project Assets:</p>
+          <button type="button" name="button" id="trimm_install">Trimm Pull</button>
+          <p>Download New Asset:</p>
+          <input type="text" name="" value="" placeholder="username/bundlename">
+          <button type="button" name="button">Trimm Install</button>
+      </div>
    </body>
    <script type="text/javascript">
        var textEncoding = require('text-encoding');
@@ -21,7 +27,7 @@
        let $ = require('jquery')
        $('#trimm_install').on('click', function() {
            if ($('#file-input').text() == "") {
-               $('#file-input').text("Please select a file!");
+               $('#current').html("<b>Please select a file!</b>");
                return;
            }
            var spawn = require('child_process').spawn;
@@ -39,6 +45,8 @@
            const {dialog} = require('electron').remote;
            var filepath = dialog.showOpenDialog({properties: ['openFile', 'openDirectory', 'multiSelections']});
            $('#file-input').text(filepath[0] + "/");
+           $('#current').html("<b>Currrent Directory: " + filepath[0] + "/</b>");
+           $('#options').css('display', 'block');
        })
        </script>
 </html>
