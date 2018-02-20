@@ -1,0 +1,22 @@
+{
+  "name": "trimmdesktopapp",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JoyceStick-BC/TrimmDesktop.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JoyceStick-BC/TrimmDesktop/issues"
+  },
+  "homepage": "https://github.com/JoyceStick-BC/TrimmDesktop#readme",
+  "devDependencies": {
+    "electron": "1.8.2"
+  }
+}
