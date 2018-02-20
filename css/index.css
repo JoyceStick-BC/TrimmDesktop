@@ -1,0 +1,21 @@
+body {
+    font-family: 'Roboto';
+}
+
+#trimm-download, #trimm-upload {
+    width: 49%;
+    display: inline-inline-block;
+}
+
+#trimm-download {
+    float: left;
+}
+
+
+h1 {
+    font-weight: 200;
+}
+
+p {
+    font-weight: 200;
+}
