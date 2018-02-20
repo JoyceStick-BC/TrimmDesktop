@@ -18,5 +18,8 @@
   "homepage": "https://github.com/JoyceStick-BC/TrimmDesktop#readme",
   "devDependencies": {
     "electron": "1.8.2"
+  },
+  "dependencies": {
+    "jquery": "^3.3.1"
   }
 }

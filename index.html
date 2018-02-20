@@ -2,10 +2,20 @@
 <html>
    <head>
       <meta charset = "UTF-8">
-      <title>Hello World!</title>
+      <title>Home</title>
    </head>
 
    <body>
       <h1>Trimm Desktop</h1>
+      <button type="button" name="button" id="trimm_install">Install Bundles</button>
+      <p>Select project directory</p>
+      <p>Current Directory: </p>
+     <input type="file" id="file-input" webkitdirectory directory/>
    </body>
+   <script type="text/javascript">
+       let $ = require('jquery')
+       $('#trimm_install').on('click', function() {
+           
+       });
+   </script>
 </html>
