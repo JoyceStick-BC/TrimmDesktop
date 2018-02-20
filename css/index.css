@@ -11,6 +11,10 @@ body {
     float: left;
 }
 
+.searchItem:hover {
+    background-color: #DCDCDC;
+    cursor: pointer;
+}
 
 h1 {
     font-weight: 200;

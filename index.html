@@ -22,10 +22,10 @@
               <p id="pull-progress"></p>
               <p>Download New Asset:</p>
               <input type="text" id="bundlename" placeholder="username/bundlename">
+              <button type="button" name="button" id="trimm_install">Trimm Install</button>
               <div id="results">
 
 	          </div>
-              <button type="button" name="button" id="trimm_install">Trimm Install</button>
               <p id="install-progress"></p>
           </div>
           <p>Upload Bundle (as joycestick)</p>
@@ -114,12 +114,14 @@
 				//if the input is empty, clear the results
 				$('#results').html("");
 				return;
-			}
+			} else if (val.indexOf("/") != -1) {
+                val = val.replace("/", " ");
+            }
 			//ajax request
 			var results = $.ajax({
 				type: "GET",
 				dataType: 'text',
-				url: 'http://localhost/Trimm/public/api/browse/' + val,
+				url: 'http://localhost/Trimm/public/api/browse/' + encodeURIComponent(val),
 				success: function(data) {
 					$('#results').html("");
 					var result = (JSON.parse(data));
