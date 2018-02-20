@@ -38,18 +38,6 @@ def download(bundlename, version, path):
     # create a zipfile object
     zip_file = zipfile.ZipFile("output.bin")
 
-    # set extract path
-    if path is None:
-        path = os.path.join(os.getcwd(), "Assets")
-        path = path + "Assets/"
-        if not os.path.exists(path):
-            os.makedirs(path)
-        path = path + "vendor/"
-        if not os.path.exists(path):
-            os.makedirs(path)
-
-        create_git_ignore(path)
-
     # get root trimm info.json if it exists, else create one
     trimm_path = os.path.join(path, "trimm.json")
     trimm_json = {"assets": {}, "packages": {}}

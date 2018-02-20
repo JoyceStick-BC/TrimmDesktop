@@ -16,9 +16,11 @@
       <div id="options" style="display:none">
           <p>Download All Project Assets:</p>
           <button type="button" name="button" id="trimm_pull">Trimm Pull</button>
+          <p id="pull-progress"></p>
           <p>Download New Asset:</p>
           <input type="text" id="bundlename"placeholder="username/bundlename">
           <button type="button" name="button" id="trimm_install">Trimm Install</button>
+          <p id="install-progress"></p>
       </div>
    </body>
    <script type="text/javascript">
@@ -34,7 +36,11 @@
                console.log(response);
            });
            py.stderr.on('data', function(data) {
-                console.error(data.toString());
+                console.log(data.toString());
+                $('#pull-progress').text("Pulling assets: " + data.toString());
+           });
+           py.stdout.on('end', function(data) {
+               $('#pull-progress').text("Pulling assets: 100%");
            });
        });
 
@@ -48,8 +54,11 @@
            });
            py.stderr.on('data', function(data) {
                 console.error(data.toString());
+                $('#install-progress').text("Downloading: " + data.toString());
             });
-
+            py.stdout.on('end', function(data) {
+                $('#install-progress').text("Downloading: 100%");
+            });
        });
 
        $('#choose-file').on('click', function() {
