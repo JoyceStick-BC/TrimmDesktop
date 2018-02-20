@@ -31,13 +31,23 @@ def update(bundlename, path, version):
                 trimm_helper.download(bundlename, version, path)
 
 def pull(path):
-    if path is None:
-        path = trimm_helper.set_path()
+    if not os.path.exists(path):
+        os.makedirs(path)
+        trimm_helper.create_git_ignore(path)
+
+        # get root trimm info.json if it exists, else create one
+        trimm_path = os.path.join(path, "trimm.json")
+        trimm_json = {"assets": {}, "packages": {}}
+        data_file = open(trimm_path, 'w')
+        trimm_json = json.dump(trimm_json, data_file)
+        data_file.close()
 
     with open(path + "trimm.json", 'r') as trimm_file:
+        print path + "trimm.json"
         trimm_json = json.load(trimm_file)
         trimm_assets = trimm_json["assets"]
         trimm_packages = trimm_json["packages"]
+
 
         for bundlename, version in trimm_assets.items():
             if not trimm_helper.check_if_installed(bundlename, path, None):  # , version): TODO READD version support
@@ -108,4 +118,4 @@ def make_zips(path):
 
 #download bundles
 if sys.argv[1] == 'pull':
-    pull(sys.argv[2])
+    pull(sys.argv[2] + "Assets/vendor/")

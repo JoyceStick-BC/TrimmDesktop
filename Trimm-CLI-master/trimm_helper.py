@@ -41,9 +41,10 @@ def download(bundlename, version, path):
     # set extract path
     if path is None:
         path = os.path.join(os.getcwd(), "Assets")
+        path = path + "Assets/"
         if not os.path.exists(path):
             os.makedirs(path)
-        path = os.path.join(path, "vendor")
+        path = path + "vendor/"
         if not os.path.exists(path):
             os.makedirs(path)
 
@@ -149,7 +150,7 @@ def check_if_installed(bundlename, path, requested_version):
             exit()
 
     if path is None:
-        path = set_path()
+        path = set_path(path)
 
     bundle = bundlename.split("/")
     bundle_path = os.path.join(path, bundle[0])
@@ -188,10 +189,8 @@ def check_if_installed(bundlename, path, requested_version):
     return False
 
 
-def set_path():
-    path = os.path.join(os.getcwd(), "Assets")
-    path = os.path.join(path, "vendor")
-    path += os.sep
+def set_path(path):
+    path = path + "Assets/vendor/"
     return path
 
 
