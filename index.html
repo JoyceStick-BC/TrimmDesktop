@@ -21,16 +21,18 @@
               <button type="button" name="button" id="trimm_pull">Trimm Pull</button>
               <p id="pull-progress"></p>
               <p>Download New Asset:</p>
-              <input type="text" id="bundlename"placeholder="username/bundlename">
+              <input type="text" id="bundlename" placeholder="username/bundlename">
+              <div id="results">
+
+	          </div>
               <button type="button" name="button" id="trimm_install">Trimm Install</button>
               <p id="install-progress"></p>
           </div>
           <p>Upload Bundle (as joycestick)</p>
-          <form id="upload-form" action="http://localhost/Trimm/public/dashboard/upload" method="post" enctype="multipart/form-data">
+          <form id="upload-form" method="post" enctype="multipart/form-data">
               <input type="file" name="fileToUpload" value="" id="test">
               <input type="submit" value="Upload Bundle" name="submit">
               <textarea name="description" rows="4" cols="50" id="description"></textarea>
-              <input type="text" name="username" value="joycestick" style="display:none;">
           </form>
       </div>
 
@@ -63,7 +65,6 @@
            event.preventDefault();
            var file_data = $('#test').prop('files')[0];
            var form_data = new FormData();
-           console.log(form_data);
            form_data.append('description', $('#description').val())
            form_data.append('fileToUpload', file_data);
            form_data.append('username', 'joycestick')
@@ -76,10 +77,9 @@
                 data: form_data,
                 type: 'post',
                 success: function(php_script_response){
-                    console.log(php_script_response); // display response from the PHP script, if any
+                    console.log(JSON.parse(php_script_response));
                 }
            });
-           console.log('done');
        })
 
        $('#trimm_install').on('click', function() {
@@ -106,5 +106,46 @@
            $('#current').html("<b>Currrent Directory: " + filepath[0] + "/</b>");
            $('#options').css('display', 'block');
        });
+
+       $('#bundlename').on('input', function() {
+           //make ajax request
+			var val = $('#bundlename').val();
+			if (val == "") {
+				//if the input is empty, clear the results
+				$('#results').html("");
+				return;
+			}
+			//ajax request
+			var results = $.ajax({
+				type: "GET",
+				dataType: 'text',
+				url: 'http://localhost/Trimm/public/api/browse/' + val,
+				success: function(data) {
+					$('#results').html("");
+					var result = (JSON.parse(data));
+					for (var i = 0; i < result.length; i++) {
+						var source = result[i]['_source'];
+						//build list of results
+                        var bundle = source['user'] + "/" + source['bundleName'];
+						$('#results').html(
+							$('#results').html()
+							+ "<div class='searchItem' alt='" + bundle + "'>"
+							+ "<p>" + bundle + " | "
+							+ source['description']
+							+ "</p></div>"
+						);
+					}
+				}
+			});
+       });
+
+       $(document).ready(function() {
+           $(document).on('click', '.searchItem', function(event) {
+               var result = $(event.target).closest('.searchItem').attr('alt');
+               $('#bundlename').val(result);
+               $('#results').html("");
+           });
+       });
+
        </script>
 </html>
