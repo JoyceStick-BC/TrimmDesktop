@@ -121,7 +121,7 @@
 			var results = $.ajax({
 				type: "GET",
 				dataType: 'text',
-				url: 'http://localhost/Trimm/public/api/browse/' + encodeURIComponent(val),
+				url: 'https://trimm3d.com/api/browse/' + encodeURIComponent(val),
 				success: function(data) {
 					$('#results').html("");
 					var result = (JSON.parse(data));
