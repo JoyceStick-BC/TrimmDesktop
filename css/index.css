@@ -23,6 +23,7 @@ body {
 
 .searchItem p {
     width: 100%;
+    font-size: 13px;
 }
 
 #results {
@@ -57,4 +58,36 @@ input[type=submit] {
     padding: 6px 4px;
     font-family: 'Open Sans', sans-serif;
     font-weight: 400;
+}
+
+input {
+    background-color: hsla(0, 0%, 100%, .18);
+    color: white;
+    border: none;
+    margin-top: 10px;
+    border-radius: 5px;
+    font-family: 'Open Sans', sans-serif;
+    padding: 6px 4px;
+}
+
+input:placeholder {
+    margin-left: 3px;
+}
+
+textarea {
+    font-family: 'Open Sans', sans-serif;
+    background-color: hsla(0, 0%, 100%, .18);
+    color: white;
+    border: none;
+    margin-top: 10px;
+    border-radius: 5px;
+}
+
+#inputFile {
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
 }

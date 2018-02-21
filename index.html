@@ -12,7 +12,7 @@
       <h1>Trimm Desktop</h1>
       <div id="trimm-download">
           <p>Select project directory:</p>
-          <p id="current"><b>No Current Directory Selected</b></p>
+          <p id="current"><b>No Project Selected</b></p>
           <form action="index.html" id="form">
               <button type="button" id="choose-file">Select File</button>
               <p id="file-input" style="display:none"></p>
@@ -31,9 +31,9 @@
           </div>
           <p>Upload Bundle (as joycestick)</p>
           <form id="upload-form" method="post" enctype="multipart/form-data">
-              <input type="file" name="fileToUpload" value="" id="test">
+              <input type="file" name="fileToUpload" value="" id="test" id="inputFile">
               <input type="submit" value="Upload Bundle" name="submit">
-              <textarea name="description" rows="4" cols="50" id="description"></textarea>
+              <textarea name="description" rows="2" cols="49" id="description" placeholder="Bundle Description"></textarea>
           </form>
       </div>
 
@@ -104,7 +104,9 @@
            const {dialog} = require('electron').remote;
            var filepath = dialog.showOpenDialog({properties: ['openFile', 'openDirectory', 'multiSelections']});
            $('#file-input').text(filepath[0] + "/");
-           $('#current').html("<b>Currrent Directory: " + filepath[0] + "/</b>");
+           var projectName = filepath[0].split("/");
+           var projectName = projectName[projectName.length - 1];
+           $('#current').html("<b>Currrent Project: " + projectName + "</b>");
            $('#options').css('display', 'block');
        });
 
