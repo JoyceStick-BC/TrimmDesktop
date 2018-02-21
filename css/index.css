@@ -1,6 +1,7 @@
 body {
     font-family: 'Open Sans', sans-serif;
     background-color: #20176f;
+    outline: none;
 }
 
 #topBar {
@@ -52,13 +53,18 @@ p {
 }
 
 button {
-    background-color: hsla(0, 0%, 100%, .18);
+    background-color: #614cdb;
     border:none;
     color: white;
     border-radius: 5px;
-    padding: 6px 4px;
+    padding: 6px 6px;
     font-family: 'Open Sans', sans-serif;
     font-weight: 400;
+    outline: none;
+}
+
+button:hover {
+    cursor: pointer;
 }
 
 input[type=file] {
@@ -66,17 +72,22 @@ input[type=file] {
 }
 
 input[type=submit] {
-    background-color: hsla(0, 0%, 100%, .18);
+    background-color: #614cdb;
     border:none;
     color: white;
     border-radius: 5px;
-    padding: 6px 4px;
+    padding: 6px 6px;
     font-family: 'Open Sans', sans-serif;
     font-weight: 400;
+    outline: none;
+}
+
+input[type=submit]:hover {
+    cursor: pointer;
 }
 
 input {
-    background-color: hsla(0, 0%, 100%, .18);
+    background-color: #392c9f;
     color: white;
     border: none;
     margin-top: 10px;
@@ -92,7 +103,7 @@ input:placeholder {
 
 textarea {
     font-family: 'Open Sans', sans-serif;
-    background-color: hsla(0, 0%, 100%, .18);
+    background-color: #392c9f;
     color: white;
     border: none;
     margin-top: 10px;
@@ -115,10 +126,14 @@ textarea {
     font-size: 11px;
     font-weight: 400;
     color: white;
-    background-color: hsla(0, 0%, 100%, .18);
+    background-color: #614cdb;
     display: inline-block;
     border-radius: 5px;
-    padding: 6px 4px;
+    padding: 6px 6px;
+}
+
+.inputFile + label:hover {
+    cursor: pointer;
 }
 
 #upload-file-name {
