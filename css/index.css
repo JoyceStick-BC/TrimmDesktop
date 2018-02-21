@@ -3,6 +3,12 @@ body {
     background-color: #20176f;
 }
 
+#topBar {
+    height: 24px;
+    -webkit-user-select: none;
+    -webkit-app-region: drag;
+}
+
 #trimm-download, #trimm-upload {
     width: 100%;
     display: inline-inline-block;
@@ -12,9 +18,10 @@ body {
     float: left;
 }
 
-.searchItem:hover {
-    background-color: #DCDCDC;
+.searchItem:hover  p{
+    background-color: hsla(0, 0%, 100%, .18);
     cursor: pointer;
+    border-radius: 5px;
 }
 
 .searchItem {
@@ -24,15 +31,19 @@ body {
 .searchItem p {
     width: 100%;
     font-size: 13px;
+    padding: 4px 0px;
+    margin: 0;
+    margin-top: 3px;
 }
 
 #results {
     width: 100%;
 }
 
-h1 {
+h2 {
     font-weight: 400;
     color: white;
+    margin: 0px;
 }
 
 p {
@@ -48,6 +59,10 @@ button {
     padding: 6px 4px;
     font-family: 'Open Sans', sans-serif;
     font-weight: 400;
+}
+
+input[type=file] {
+    font-family: 'Open Sans', sans-serif;
 }
 
 input[type=submit] {
@@ -68,6 +83,7 @@ input {
     border-radius: 5px;
     font-family: 'Open Sans', sans-serif;
     padding: 6px 4px;
+    outline: none;
 }
 
 input:placeholder {
@@ -81,13 +97,35 @@ textarea {
     border: none;
     margin-top: 10px;
     border-radius: 5px;
+    resize: none;
+    outline: none;
 }
 
-#inputFile {
+.inputFile {
     width: 0.1px;
     height: 0.1px;
     opacity: 0;
     overflow: hidden;
     position: absolute;
     z-index: -1;
+}
+
+.inputFile + label {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 400;
+    color: white;
+    background-color: hsla(0, 0%, 100%, .18);
+    display: inline-block;
+    border-radius: 5px;
+    padding: 6px 4px;
+}
+
+#upload-file-name {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 400;
+    color: white;
+    display: inline-block;
+    padding: 6px 4px;
 }

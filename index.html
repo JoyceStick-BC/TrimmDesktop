@@ -9,7 +9,10 @@
    </head>
 
    <body>
-      <h1>Trimm Desktop</h1>
+      <div id="topBar">
+
+      </div>
+      <h2>Trimm Desktop</h2>
       <div id="trimm-download">
           <p>Select project directory:</p>
           <p id="current"><b>No Project Selected</b></p>
@@ -31,8 +34,10 @@
           </div>
           <p>Upload Bundle (as joycestick)</p>
           <form id="upload-form" method="post" enctype="multipart/form-data">
-              <input type="file" name="fileToUpload" value="" id="test" id="inputFile">
-              <input type="submit" value="Upload Bundle" name="submit">
+              <input type="file" name="fileToUpload" value="" id="fileToUpload" class="inputFile">
+              <label for="fileToUpload">Choose a file</label>
+              <input type="submit" value="Upload Bundle" name="submit" id="submitFile">
+              <label for="submitFile" id="upload-file-name"></label>
               <textarea name="description" rows="2" cols="49" id="description" placeholder="Bundle Description"></textarea>
           </form>
       </div>
@@ -64,7 +69,7 @@
 
        $('#upload-form').submit(function() {
            event.preventDefault();
-           var file_data = $('#test').prop('files')[0];
+           var file_data = $('#fileToUpload').prop('files')[0];
            var form_data = new FormData();
            form_data.append('description', $('#description').val())
            form_data.append('fileToUpload', file_data);
@@ -150,6 +155,11 @@
                $('#bundlename').val(result);
                $('#results').html("");
            });
+       });
+
+       $('#fileToUpload').on('change', function() {
+          var filename = $('#fileToUpload').val().split('\\').pop();
+          $('#upload-file-name').text(filename);
        });
 
        </script>
