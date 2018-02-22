@@ -201,6 +201,8 @@ textarea {
     outline: none;
     display: block;
     font-size: 13px;
+    width: 98%;
+    margin-bottom: 50px;
 }
 
 .inputFile {
