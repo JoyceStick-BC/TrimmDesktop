@@ -177,9 +177,19 @@
                //create path?
                console.log('failed');
            }
-           data['currentProject'] = { [filepath] : projectName };
+           data['folders'][filepath[0] + "/"] = projectName;
            console.log(data);
            fs.writeFile(initPath, JSON.stringify(data));
+           //add folder to folder list
+           $('#savedProjects').html(
+               $('#savedProjects').html() +
+               "<button class='savedProject'" +
+               "alt='" +
+               filepath[0] + "/" +
+               "'>" +
+               projectName +
+               "</button>"
+           );
 
        });
 
