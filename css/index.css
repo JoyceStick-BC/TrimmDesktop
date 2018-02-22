@@ -4,21 +4,76 @@ body {
     outline: none;
 }
 
+h3 {
+    font-weight: 400;
+}
+
+#projectSelectorTitle {
+    margin-top: 50px;
+    margin-left: 15px;
+}
+
+#projectSelectorTitle, #projectSelectorClose {
+    display: inline-block;
+}
+
+#projectSelectorClose {
+    float: right;
+    height: 15px;
+    width: 15px;
+    background-color: #614cdb;
+    margin-top: 57px;
+    margin-right: 15px;
+    border-radius: 3px;
+}
+
 #topBar {
     height: 24px;
     -webkit-user-select: none;
     -webkit-app-region: drag;
 }
 
-#trimm-download, #trimm-upload {
+#projectSelectorTrigger {
     width: 100%;
-    display: inline-inline-block;
+    padding: 4px 0;
+    border-radius: 5px;
+    background-color: transparent;
+    transition: 0.2s ease all;
+    cursor: pointer;
+    margin-top: 15px;
 }
 
-#trimm-download {
+#projectSelectorTrigger:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+#projectSelector {
+    position: fixed;
+    top: -100vh;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 100vh;
+    background-color: rgba(255, 255, 255, 1);
+    transition: 0.2s ease all;
+}
+
+#projectSelectorState {
+    display: none;
+}
+
+#projectSelectorState:checked + #projectSelector {
+    top: 0;
+}
+
+#savedProjects {
+
+}
+
+#trimm-download{
+    width: 100%;
     float: left;
 }
-
 .searchItem:hover  p{
     background-color: hsla(0, 0%, 100%, .18);
     cursor: pointer;
@@ -61,6 +116,17 @@ button {
     font-family: 'Open Sans', sans-serif;
     font-weight: 400;
     outline: none;
+}
+
+#choose-file {
+    width: 100%;
+    background-color: white;
+    color: black;
+    border-radius: 0;
+}
+
+#choose-file:hover {
+    background-color: #DCDCDC;
 }
 
 button:hover {

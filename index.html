@@ -13,13 +13,27 @@
 
       </div>
       <h2>Trimm Desktop</h2>
+      <input type="checkbox" name="projectSelectorState" id="projectSelectorState">
+      <div id="projectSelector">
+          <h3 id="projectSelectorTitle">Select Project</h3>
+          <label for="projectSelectorState">
+              <div id="projectSelectorClose">
+                  <p></p>
+              </div>
+          </label>
+          <div id="savedProjects">
+
+          </div>
+          <button type="button" id="choose-file">Add Project</button>
+          <p id="file-input" style="display:none"></p>
+          <!-- add stuff here -->
+      </div>
+      <label for="projectSelectorState">
+          <div id="projectSelectorTrigger">
+              <p id="current">No Project Selected</p>
+          </div>
+      </label>
       <div id="trimm-download">
-          <p>Select project directory:</p>
-          <p id="current"><b>No Project Selected</b></p>
-          <form action="index.html" id="form">
-              <button type="button" id="choose-file">Select File</button>
-              <p id="file-input" style="display:none"></p>
-          </form>
           <div id="options" style="display:none">
               <p>Download All Project Assets:</p>
               <button type="button" name="button" id="trimm_pull">Trimm Pull</button>
@@ -106,13 +120,17 @@
        });
 
        $('#choose-file').on('click', function() {
+           //open file explorer
            const {dialog} = require('electron').remote;
            var filepath = dialog.showOpenDialog({properties: ['openFile', 'openDirectory', 'multiSelections']});
+           //get filepath
            $('#file-input').text(filepath[0] + "/");
            var projectName = filepath[0].split("/");
            var projectName = projectName[projectName.length - 1];
+           //set appropriate html/css
            $('#current').html("<b>Currrent Project: " + projectName + "</b>");
            $('#options').css('display', 'block');
+           $('#projectSelectorState').prop('checked', false);
        });
 
        $('#bundlename').on('input', function() {
