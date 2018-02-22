@@ -100,11 +100,13 @@ h2 {
     font-weight: 400;
     color: white;
     margin: 0px;
+    text-align: center;
 }
 
 p {
     font-weight: 400;
     color: white;
+    font-size: 17px;
 }
 
 button {
@@ -116,6 +118,13 @@ button {
     font-family: 'Open Sans', sans-serif;
     font-weight: 400;
     outline: none;
+    font-size: 13px;
+}
+
+button:hover {
+    background-color: hsla(0, 0%, 100%, .18);
+    transition: 0.1s ease all;
+
 }
 
 #choose-file {
@@ -161,6 +170,8 @@ input[type=submit] {
 
 input[type=submit]:hover {
     cursor: pointer;
+    background-color: hsla(0, 0%, 100%, .18);
+    transition: 0.1s ease all;
 }
 
 input {
@@ -172,6 +183,7 @@ input {
     font-family: 'Open Sans', sans-serif;
     padding: 6px 4px;
     outline: none;
+    font-size: 13px;
 }
 
 input:placeholder {
@@ -188,6 +200,7 @@ textarea {
     resize: none;
     outline: none;
     display: block;
+    font-size: 13px;
 }
 
 .inputFile {
@@ -208,10 +221,13 @@ textarea {
     display: inline-block;
     border-radius: 5px;
     padding: 6px 6px;
+    font-size: 13px;
 }
 
 .inputFile + label:hover {
     cursor: pointer;
+    background-color: hsla(0, 0%, 100%, .18);
+    transition: 0.1s ease all;
 }
 
 #upload-file-name {

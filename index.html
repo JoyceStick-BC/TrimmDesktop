@@ -12,7 +12,7 @@
       <div id="topBar">
 
       </div>
-      <h2>Trimm Desktop</h2>
+      <h2><b>Trimm Desktop</b></h2>
       <input type="checkbox" name="projectSelectorState" id="projectSelectorState">
       <div id="projectSelector">
           <h3 id="projectSelectorTitle">Select Project</h3>
@@ -52,7 +52,7 @@
               <label for="fileToUpload">Choose a file</label>
               <input type="submit" value="Upload Bundle" name="submit" id="submitFile">
               <label for="submitFile" id="upload-file-name"></label>
-              <textarea name="description" rows="2" cols="49" id="description" placeholder="Bundle Description"></textarea>
+              <textarea name="description" rows="2" cols="42" id="description" placeholder="Bundle Description"></textarea>
           </form>
       </div>
 
@@ -236,8 +236,8 @@
 					var result = (JSON.parse(data));
 					for (var i = 0; i < result.length; i++) {
 						var source = result[i]['_source'];
-						//build list of results
                         var bundle = source['user'] + "/" + source['bundleName'];
+                        //updated result div
 						$('#results').html(
 							$('#results').html()
 							+ "<div class='searchItem' alt='" + bundle + "'>"
