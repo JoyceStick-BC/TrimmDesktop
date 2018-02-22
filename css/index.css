@@ -125,6 +125,17 @@ button {
     border-radius: 0;
 }
 
+.savedProject {
+    width: 100%;
+    background-color: white;
+    color: black;
+    border-radius: 0;
+}
+
+.savedProject:hover {
+    background-color: #DCDCDC;
+}
+
 #choose-file:hover {
     background-color: #DCDCDC;
 }
