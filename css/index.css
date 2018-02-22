@@ -187,6 +187,7 @@ textarea {
     border-radius: 5px;
     resize: none;
     outline: none;
+    display: block;
 }
 
 .inputFile {

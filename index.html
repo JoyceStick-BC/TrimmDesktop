@@ -77,9 +77,9 @@
            //create path?
        }
 
+       currentProject = data['currentProject'];
        data = data['folders'];
        for(var project in data) {
-           console.log(project);
            $('#savedProjects').html(
                $('#savedProjects').html() +
                "<button class='savedProject'" +
@@ -89,6 +89,11 @@
                data[project] +
                "</button>"
            );
+       }
+       for (var current in currentProject) {
+           $('#file-input').text(current + "/");
+           $('#current').html("<b>Currrent Project: " + currentProject[current] + "</b>");
+           $('#options').css('display', 'block');
        }
 
        $('#trimm_pull').on('click', function() {
@@ -109,6 +114,7 @@
        });
 
        $('#upload-form').submit(function() {
+           //submit form to Trimm3d for upload
            event.preventDefault();
            var file_data = $('#fileToUpload').prop('files')[0];
            var form_data = new FormData();
@@ -147,6 +153,9 @@
        });
 
        $('#choose-file').on('click', function() {
+           /*
+            File Selector for project directory
+           */
            //open file explorer
            const {dialog} = require('electron').remote;
            var filepath = dialog.showOpenDialog({properties: ['openFile', 'openDirectory', 'multiSelections']});
@@ -158,6 +167,20 @@
            $('#current').html("<b>Currrent Project: " + projectName + "</b>");
            $('#options').css('display', 'block');
            $('#projectSelectorState').prop('checked', false);
+           //update currentProject in init.JSON
+           var initPath = path.join('./', "init.json");
+           var data;
+           try {
+               data = JSON.parse(fs.readFileSync(initPath, 'utf8'));
+           }
+           catch(e) {
+               //create path?
+               console.log('failed');
+           }
+           data['currentProject'] = { [filepath] : projectName };
+           console.log(data);
+           fs.writeFile(initPath, JSON.stringify(data));
+
        });
 
        $('.savedProject').on('click', function(event) {
@@ -168,6 +191,19 @@
            $('#current').html("<b>Currrent Project: " + projectName + "</b>");
            $('#options').css('display', 'block');
            $('#projectSelectorState').prop('checked', false);
+           //update currentProject in init.JSON
+           var initPath = path.join('./', "init.json");
+           var data;
+           try {
+               data = JSON.parse(fs.readFileSync(initPath, 'utf8'));
+           }
+           catch(e) {
+               //create path?
+               console.log('failed');
+           }
+           data['currentProject'] = { [filepath] : projectName };
+           console.log(data);
+           fs.writeFile(initPath, JSON.stringify(data));
        });
 
        $('#bundlename').on('input', function() {
@@ -213,6 +249,7 @@
        });
 
        $('#fileToUpload').on('change', function() {
+          //handle file upload
           var filename = $('#fileToUpload').val().split('\\').pop();
           $('#upload-file-name').text(filename);
        });
