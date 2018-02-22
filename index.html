@@ -99,7 +99,7 @@
        $('#trimm_pull').on('click', function() {
            //trimm pull
            var spawn = require('child_process').spawn;
-           var py = spawn('python', ['./Trimm-CLI-master/trimm.py', 'pull', $('#file-input').text()]);
+           var py = spawn('python', ['./TrimmDesktop/trimm.py', 'pull', $('#file-input').text()]);
            py.stdout.on('data', function(data){
                var response = new TextDecoder("utf-8").decode(data);
                console.log(response);
@@ -138,7 +138,7 @@
        $('#trimm_install').on('click', function() {
            //trimm install
            var spawn = require('child_process').spawn;
-           var py = spawn('python', ['./Trimm-CLI-master/trimm.py', 'install', $('#file-input').text(), $('#bundlename').val()]);
+           var py = spawn('python', ['./TrimmDesktop/trimm.py', 'install', $('#file-input').text(), $('#bundlename').val()]);
            py.stdout.on('data', function(data){
                var response = new TextDecoder("utf-8").decode(data);
                console.log(response);
