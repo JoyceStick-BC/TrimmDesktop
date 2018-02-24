@@ -6,8 +6,8 @@ const shell = require('electron').shell;
 let win
 
 function createWindow() {
-   win = new BrowserWindow({width: 330, height: 600, titleBarStyle: 'hidden', frame: false});
-   win.setMenu(null);
+   win = new BrowserWindow({width: 330, height: 600, titleBarStyle: 'hidden', frame: false, resizable: false});
+
    win.webContents.send('init-data', 'hello!');
    win.loadURL(url.format ({
       pathname: path.join(__dirname, 'index.html'),

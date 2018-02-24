@@ -91,7 +91,7 @@
            );
        }
        for (var current in currentProject) {
-           $('#file-input').text(current + "/");
+           $('#file-input').text(current);
            $('#current').html("<b>Currrent Project: " + currentProject[current] + "</b>");
            $('#options').css('display', 'block');
        }
@@ -113,14 +113,15 @@
            });
        });
 
-       $('#upload-form').submit(function() {
+       $('#upload-form').submit(function(event) {
            //submit form to Trimm3d for upload
            event.preventDefault();
            var file_data = $('#fileToUpload').prop('files')[0];
            var form_data = new FormData();
            form_data.append('description', $('#description').val())
            form_data.append('fileToUpload', file_data);
-           form_data.append('username', 'joycestick')
+           form_data.append('username', 'joycestick');
+           console.log(form_data);
            $.ajax({
                 url: 'https://trimm3d.com/dashboard/upload',
                 dataType: 'text',
@@ -133,7 +134,7 @@
                     console.log(JSON.parse(php_script_response));
                 }
            });
-       })
+       });
 
        $('#trimm_install').on('click', function() {
            //trimm install
@@ -160,7 +161,7 @@
            const {dialog} = require('electron').remote;
            var filepath = dialog.showOpenDialog({properties: ['openFile', 'openDirectory', 'multiSelections']});
            //get filepath
-           $('#file-input').text(filepath[0] + "/");
+           $('#file-input').text(filepath[0]);
            var projectName = filepath[0].split("/");
            var projectName = projectName[projectName.length - 1];
            //set appropriate html/css
@@ -197,7 +198,7 @@
            var filepath = $(event.target).closest('.savedProject').attr('alt');
            console.log(filepath);
            var projectName = $(event.target).closest('.savedProject').html();
-           $('#file-input').text(filepath + "/");
+           $('#file-input').text(filepath);
            $('#current').html("<b>Currrent Project: " + projectName + "</b>");
            $('#options').css('display', 'block');
            $('#projectSelectorState').prop('checked', false);
@@ -208,7 +209,6 @@
                data = JSON.parse(fs.readFileSync(initPath, 'utf8'));
            }
            catch(e) {
-               //create path?
                console.log('failed');
            }
            data['currentProject'] = { [filepath] : projectName };

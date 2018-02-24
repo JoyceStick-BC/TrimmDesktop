@@ -6,7 +6,6 @@ import shutil
 
 from tqdm import tqdm
 
-
 # installs unzipped package to the given directory
 def download(bundlename, version, path):
     url = "http://trimm3d.com/download/" + bundlename + ""
@@ -69,6 +68,7 @@ def download(bundlename, version, path):
     zip_file.close()
     os.remove("output.bin")
     shutil.rmtree(downloading_path)
+    print "downloading_path line 71: " + downloading_path
 
     # dump json
     with open(trimm_path, 'w+') as out_file:
@@ -77,55 +77,40 @@ def download(bundlename, version, path):
     print("Successfully installed " + bundlename + "!")
 
 
-def drill(bundle_path, vendor_path, info_jsons):
+def drill(download_path, vendor_path, info_jsons):
     # let's get all the files in the downloading path
-    for filename in os.listdir(bundle_path):
-        new_path = os.path.join(bundle_path, filename)
-        # if we find a directory
-        if os.path.isdir(new_path):
+    for filename in os.listdir(download_path):
+        file_in_downloading_path = os.path.join(download_path, filename)
+        # if we find a file
+        dumbvariablewedontneed, file_extension = os.path.splitext(file_in_downloading_path)
+        if file_extension == ".zip":
             # let's look for zips in this dir by identifying any info.jsons
-            for unzipped_filename in os.listdir(new_path):
-                inner_dir_path = os.path.join(new_path, unzipped_filename)
+            for downloaded_file in os.listdir(download_path):
+                downloaded_file_path = os.path.join(download_path, downloaded_file)
                 # if we find an info.json, let's unzip it's associated zip
-                if unzipped_filename == "info.json":
+                if downloaded_file == "info.json":
                     # add the info to our list of info jsons
-                    inner_data_file = open(inner_dir_path, 'r')
+                    inner_data_file = open(downloaded_file_path, 'r')
                     inner_info_json = json.load(inner_data_file)
                     info_jsons.append(inner_info_json)
 
                     # if this bundle is an asset
                     if inner_info_json["type"] == "asset":
                         # let's extract the asset zip to the vendor path
-                        inner_asset_path = os.path.join(new_path, inner_info_json["name"] + ".zip")  # need to change bundlename to name for fk testing TODO add something to folder name if version is static
+                        downloaded_asset_path = os.path.join(download_path, inner_info_json["name"] + ".zip")  # need to change bundlename to name for fk testing TODO add something to folder name if version is static
                         print("Unzipping " + inner_info_json["bundlename"] + "!")
-                        inner_zip_file = zipfile.ZipFile(inner_asset_path)
 
-                        bundle_vendor_path = os.path.join(vendor_path, inner_info_json["username"])
+                        downloaded_asset_file = zipfile.ZipFile(downloaded_asset_path)
+
+                        bundle_vendor_path = os.path.join(vendor_path, inner_info_json["bundlename"])
+
                         if not os.path.exists(bundle_vendor_path):
                             os.makedirs(bundle_vendor_path)
-                        inner_zip_file.extractall(bundle_vendor_path)
+                        downloaded_asset_file.extractall(bundle_vendor_path)
 
                         # after extracting zip, let's delete
-                        inner_zip_file.close()
-                        os.remove(inner_asset_path)
-
-                    # if this bundle is a package
-                    elif inner_info_json["type"] == "package":
-                        # let's extract all the bundles of this package
-                        for unzipped_package_filename in os.listdir(new_path):
-                            inner_package_file = os.path.join(new_path, unzipped_package_filename)
-
-                            # let's extract the inner bundle zips to this dir
-                            if zipfile.is_zipfile(inner_package_file):
-                                inner_zip_file = zipfile.ZipFile(inner_package_file)
-                                inner_zip_file.extractall(new_path)
-
-                                # after extracting zip, let's delete
-                                os.remove(inner_package_file)
-
-                        # now let's drill again to handle the bundles of the package
-                        drill(new_path, vendor_path, info_jsons)
-
+                        downloaded_asset_file.close()
+                        os.remove(downloaded_asset_path)
 
 def check_if_installed(bundlename, path, requested_version):
     # if no version specified, assume latest

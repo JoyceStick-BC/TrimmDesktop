@@ -53,7 +53,9 @@ def pull(path):
         trimm_json = json.dump(trimm_json, data_file)
         data_file.close()
 
-    with open(path + "trimm.json", 'r') as trimm_file:
+    trimm_path = os.path.join(path, "trimm.json")
+
+    with open(trimm_path, 'r') as trimm_file:
         trimm_json = json.load(trimm_file)
         trimm_assets = trimm_json["assets"]
         trimm_packages = trimm_json["packages"]
@@ -128,7 +130,13 @@ def make_zips(path):
 
 #download bundles
 if sys.argv[1] == 'pull':
-    pull(sys.argv[2] + "Assets/vendor/")
+    path = sys.argv[2]
+    path = os.path.join(path, "Assets")
+    path = os.path.join(path, "vendor")
+    pull(path)
 elif sys.argv[1] == 'install':
-    print 'installing'
-    install(sys.argv[3], sys.argv[2] + "Assets/vendor/", None)
+    path = sys.argv[2]
+    path = os.path.join(path, "Assets")
+    path = os.path.join(path, "vendor")
+    print path
+    install(sys.argv[3], path, None)
