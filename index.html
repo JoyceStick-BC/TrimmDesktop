@@ -55,17 +55,19 @@
               <textarea name="description" rows="2" cols="42" id="description" placeholder="Bundle Description"></textarea>
           </form>
       </div>
-
-      <div id="trimm-upload">
-
-      </div>
    </body>
    <script type="text/javascript">
+      /*
+        Setup
+      */
+
+      //use text decoder for reading data from python
        var textEncoding = require('text-encoding');
        var TextDecoder = textEncoding.TextDecoder;
        let $ = require('jquery');
        var ipcRenderer = require('electron').ipcRenderer;
 
+       //read init.json file to get saved projects and most recent project
        var path = require("path");
        var fs = require("fs");
        var initPath = path.join('./', "init.json");
@@ -74,9 +76,8 @@
            data = JSON.parse(fs.readFileSync(initPath, 'utf8'));
        }
        catch(e) {
-           //create path?
-       }
 
+       }
        currentProject = data['currentProject'];
        data = data['folders'];
        for(var project in data) {
@@ -96,34 +97,70 @@
            $('#options').css('display', 'block');
        }
 
+       /*
+        Pull all assets from trimm.json in current project directory
+       */
        $('#trimm_pull').on('click', function() {
-           //trimm pull
+           //use node's child_process to send data to trimm.py
            var spawn = require('child_process').spawn;
+           //pass py file path and data to send to it
            var py = spawn('python', ['./TrimmDesktop/trimm.py', 'pull', $('#file-input').text()]);
+           //handle output from python
            py.stdout.on('data', function(data){
                var response = new TextDecoder("utf-8").decode(data);
                console.log(response);
            });
+           //handle errors from python
            py.stderr.on('data', function(data) {
                 console.log(data.toString());
                 $('#pull-progress').text("Pulling assets: " + data.toString());
            });
+           //listen for termination of py script
            py.stdout.on('end', function(data) {
                $('#pull-progress').text("Pulling assets: 100%");
            });
        });
 
+       /*
+        Install the current asset into the current project's vendor folder. Trimm.py
+        will add it to trimm.json
+       */
+       $('#trimm_install').on('click', function() {
+           //use node's child_process to send data to trimm.py
+           var spawn = require('child_process').spawn;
+           //pass py file path and data to send to it
+           var py = spawn('python', ['./TrimmDesktop/trimm.py', 'install', $('#file-input').text(), $('#bundlename').val()]);
+           //handle output from python
+           py.stdout.on('data', function(data){
+               var response = new TextDecoder("utf-8").decode(data);
+               console.log(response);
+           });
+           //handle errors from python
+           py.stderr.on('data', function(data) {
+                console.log(data.toString());
+                $('#install-progress').text("Downloading: " + data.toString());
+            });
+            //listen for termination of py script
+            py.stdout.on('end', function(data) {
+                $('#install-progress').text("Downloading: 100%");
+            });
+       });
+
+       /*
+        Use Node's FormData to upload a file to the trimm server
+       */
        $('#upload-form').submit(function(event) {
-           //submit form to Trimm3d for upload
+           //prevent form from submitting
            event.preventDefault();
+           //grab file data and add it to form_data
            var file_data = $('#fileToUpload').prop('files')[0];
            var form_data = new FormData();
            form_data.append('description', $('#description').val())
            form_data.append('fileToUpload', file_data);
            form_data.append('username', 'joycestick');
-           console.log(form_data);
+           //ajax call to server with form_data
            $.ajax({
-                url: 'https://trimm3d.com/dashboard/upload',
+                url: 'https://trimm3d.com/api/upload-asset',
                 dataType: 'text',
                 cache: false,
                 contentType: false,
@@ -131,32 +168,25 @@
                 data: form_data,
                 type: 'post',
                 success: function(php_script_response){
-                    console.log(JSON.parse(php_script_response));
+                    console.log(php_script_response);
+                },
+                error: function(xhr, status, error) {
+                    console.log(error);
+                    var err = eval("(" + xhr.responseText + ")");
+                    console.log(err.Message);
+                },
+                complete: function(event) {
+                    console.log(event);
                 }
            });
-       });
-
-       $('#trimm_install').on('click', function() {
-           //trimm install
-           var spawn = require('child_process').spawn;
-           var py = spawn('python', ['./TrimmDesktop/trimm.py', 'install', $('#file-input').text(), $('#bundlename').val()]);
-           py.stdout.on('data', function(data){
-               var response = new TextDecoder("utf-8").decode(data);
-               console.log(response);
-           });
-           py.stderr.on('data', function(data) {
-                console.error(data.toString());
-                $('#install-progress').text("Downloading: " + data.toString());
-            });
-            py.stdout.on('end', function(data) {
-                $('#install-progress').text("Downloading: 100%");
-            });
+           event.preventDefault();
        });
 
        $('#choose-file').on('click', function() {
            /*
             File Selector for project directory
            */
+
            //open file explorer
            const {dialog} = require('electron').remote;
            var filepath = dialog.showOpenDialog({properties: ['openFile', 'openDirectory', 'multiSelections']});
@@ -164,20 +194,20 @@
            $('#file-input').text(filepath[0]);
            var projectName = filepath[0].split("/");
            var projectName = projectName[projectName.length - 1];
-           //set appropriate html/css
+           //set appropriate html/css for having selected a project
            $('#current').html("<b>Currrent Project: " + projectName + "</b>");
            $('#options').css('display', 'block');
            $('#projectSelectorState').prop('checked', false);
-           //update currentProject in init.JSON
+           //update currentProject in init.json
            var initPath = path.join('./', "init.json");
            var data;
            try {
                data = JSON.parse(fs.readFileSync(initPath, 'utf8'));
            }
            catch(e) {
-               //create path?
                console.log('failed');
            }
+           //add folder to folders in init.json
            data['folders'][filepath[0] + "/"] = projectName;
            console.log(data);
            fs.writeFile(initPath, JSON.stringify(data));
@@ -194,11 +224,16 @@
 
        });
 
+       /*
+        Set current project to the project that the user clicked on
+       */
        $('.savedProject').on('click', function(event) {
+           //get clicked project
            var filepath = $(event.target).closest('.savedProject').attr('alt');
-           console.log(filepath);
            var projectName = $(event.target).closest('.savedProject').html();
+           //set file value in hidden input field
            $('#file-input').text(filepath);
+           //display current project
            $('#current').html("<b>Currrent Project: " + projectName + "</b>");
            $('#options').css('display', 'block');
            $('#projectSelectorState').prop('checked', false);
@@ -211,33 +246,40 @@
            catch(e) {
                console.log('failed');
            }
+           //set current project in init.json
            data['currentProject'] = { [filepath] : projectName };
-           console.log(data);
            fs.writeFile(initPath, JSON.stringify(data));
        });
 
+       /*
+        Display live search results from trimm3d's browse api on every input
+       */
        $('#bundlename').on('input', function() {
-           //make ajax request
+           //get textbox value
 			var val = $('#bundlename').val();
 			if (val == "") {
 				//if the input is empty, clear the results
 				$('#results').html("");
 				return;
 			} else if (val.indexOf("/") != -1) {
+                //if there is a slash, replace it with a space
                 val = val.replace("/", " ");
             }
-			//ajax request
+			//ajax GET request to the api with textbox value
 			var results = $.ajax({
 				type: "GET",
 				dataType: 'text',
 				url: 'https://trimm3d.com/api/browse/' + encodeURIComponent(val),
 				success: function(data) {
+                    //reset the html
 					$('#results').html("");
+                    //parse the data
 					var result = (JSON.parse(data));
+                    //create a div for each result
 					for (var i = 0; i < result.length; i++) {
 						var source = result[i]['_source'];
                         var bundle = source['user'] + "/" + source['bundleName'];
-                        //updated result div
+                        //update result div
 						$('#results').html(
 							$('#results').html()
 							+ "<div class='searchItem' alt='" + bundle + "'>"
@@ -250,16 +292,22 @@
 			});
        });
 
+       /*
+        Fill search text box (#bundlename) with clicked on search result
+       */
        $(document).ready(function() {
            $(document).on('click', '.searchItem', function(event) {
+               //get bundlename from alt attribute of .searchItem
                var result = $(event.target).closest('.searchItem').attr('alt');
                $('#bundlename').val(result);
                $('#results').html("");
            });
        });
 
+       /*
+        Display the name of the file the user has selected to upload
+       */
        $('#fileToUpload').on('change', function() {
-          //handle file upload
           var filename = $('#fileToUpload').val().split('\\').pop();
           $('#upload-file-name').text(filename);
        });
