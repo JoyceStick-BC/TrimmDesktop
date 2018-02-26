@@ -77,6 +77,8 @@
        catch(e) {
 
        }
+
+       var authCode = data["authCode"];
        //build html of saved projects in drop-down
        currentProject = data['currentProject'];
        data = data['folders'];
@@ -159,6 +161,7 @@
            form_data.append('description', $('#description').val())
            form_data.append('fileToUpload', file_data);
            form_data.append('username', 'joycestick');
+           form_data.append('authCode', authCode);
            //ajax call to server with form_data
            $.ajax({
                 url: 'https://trimm3d.com/api/upload-asset',

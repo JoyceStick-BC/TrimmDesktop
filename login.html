@@ -18,13 +18,20 @@
     </body>
     <script type="text/javascript">
 
+        //get dependencies
         var md5 = require('md5');
         let $ = require('jquery');
         var path = require("path");
         var fs = require("fs");
 
+        /*
+            Handle submit of login-form. Will send username and password to
+            Trimm and recieve a code in response. This code will be sent back to
+            Trimm in response for a final authCode
+        */
         $('#login-form').submit(function(event) {
             event.preventDefault();
+            //build form with username/password
             var form_data = new FormData();
             form_data.append('username', $('#username').val())
             form_data.append('password', $('#password').val());
@@ -40,6 +47,7 @@
                  type: 'post',
                  async: false,
                  success: function(php_script_response){
+                     //get the key sent back
                      success = JSON.parse(php_script_response)["key"];
                  },
                  error: function(xhr, status, error) {
@@ -47,6 +55,7 @@
                  }
             });
             if (success) {
+                //send auth code back to Trimm
                 postAuthCode(success);
             } else {
                 console.log('Failed auth');
@@ -54,11 +63,18 @@
             event.preventDefault();
         });
 
+        /*
+            After login form is submitted and code is retrieved properly,
+            send the code back along with first four of username to get final
+            auth code and store in init.json
+        */
         function postAuthCode(code) {
+            //build form with user first four and retrieved code
             var form_data = new FormData();
             var userFirstFour = $('#username').val().substring(0, 4);
             form_data.append('userFirstFour', md5(userFirstFour));
             form_data.append('code', code);
+            //send ajax request
             $.ajax({
                  url: 'http://localhost/trimm/public/api/verify-code',
                  dataType: 'text',
@@ -69,6 +85,7 @@
                  type: 'post',
                  async: false,
                  success: function(php_script_response){
+                     //get final key
                      code = JSON.parse(php_script_response)["final_key"];
                  },
                  error: function(xhr, status, error) {
@@ -76,6 +93,7 @@
                  }
             });
             if (code) {
+                //store final key in init.json
                 var initPath = path.join('./', "init.json");
                 var data;
                 try {
