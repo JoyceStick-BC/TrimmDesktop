@@ -25,8 +25,9 @@
             event.preventDefault();
             var form_data = new FormData();
             form_data.append('username', $('#username').val())
-            form_data.append('password', md5($('#password').val()));
+            form_data.append('password', $('#password').val());
             //ajax call to server with form_data
+            var success = null;
             $.ajax({
                  url: 'http://localhost/trimm/public/api/auth',
                  dataType: 'text',
@@ -35,19 +36,50 @@
                  processData: false,
                  data: form_data,
                  type: 'post',
+                 async: false,
                  success: function(php_script_response){
+                     success = JSON.parse(php_script_response)["key"];
+                 },
+                 error: function(xhr, status, error) {
+                     success = false;
+                 }
+            });
+            if (success) {
+                postAuthCode(success);
+            } else {
+                console.log('failed');
+            }
+            event.preventDefault();
+        });
+
+        function postAuthCode(code) {
+            var form_data = new FormData();
+            var userFirstFour = $('#username').val().substring(0, 4);
+            form_data.append('userFirstFour', md5(userFirstFour));
+            form_data.append('code', code);
+            $.ajax({
+                 url: 'http://localhost/trimm/public/api/verify-code',
+                 dataType: 'text',
+                 cache: false,
+                 contentType: false,
+                 processData: false,
+                 data: form_data,
+                 type: 'post',
+                 async: false,
+                 success: function(php_script_response){
+                     //success = JSON.parse(php_script_response)["key"];
                      console.log(php_script_response);
                  },
                  error: function(xhr, status, error) {
-                     console.log(error);
-                     var err = eval("(" + xhr.responseText + ")");
-                     console.log(err.Message);
-                 },
-                 complete: function(event) {
-                     console.log(event);
+                     success = false;
                  }
             });
-            event.preventDefault();
-        })
+            if (success) {
+                postAuthCode(success);
+            } else {
+                console.log('failed');
+            }
+
+        }
     </script>
 </html>
