@@ -1,0 +1,9 @@
+input {
+    margin-top: 50px;
+}
+
+#drag {
+    -webkit-user-select: none;
+    -webkit-app-region: drag;
+    height: 20px;   
+}
