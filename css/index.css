@@ -240,3 +240,13 @@ textarea {
     display: inline-block;
     padding: 6px 4px;
 }
+
+.assetListItem {
+    font-size: 12px;
+    padding: 2px 0px;
+    border-radius: 5px;
+}
+
+.assetListItem:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}

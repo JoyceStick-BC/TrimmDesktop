@@ -32,6 +32,9 @@
               <p id="current">No Project Selected</p>
           </div>
       </label>
+      <div id="project-assets">
+
+      </div>
       <div id="trimm-download">
           <div id="options" style="display:none">
               <p>Download All Project Assets:</p>
@@ -98,6 +101,7 @@
            $('#file-input').text(current);
            $('#current').html("<b>Currrent Project: " + currentProject[current] + "</b>");
            $('#options').css('display', 'block');
+           updateAssetList();
        }
 
        /*
@@ -146,6 +150,8 @@
             //listen for termination of py script
             py.stdout.on('end', function(data) {
                 $('#install-progress').text("Downloading: 100%");
+                //update the asset list drop-down
+                updateAssetList();
             });
        });
 
@@ -251,6 +257,7 @@
            //set current project in init.json
            data['currentProject'] = { [filepath] : projectName };
            fs.writeFile(initPath, JSON.stringify(data));
+           updateAssetList();
        });
 
        /*
@@ -313,6 +320,33 @@
           var filename = $('#fileToUpload').val().split('\\').pop();
           $('#upload-file-name').text(filename);
        });
+
+       /*
+        Update the asset list to match the current projects trimm.json. If it does
+        not exist, show that there are no assets.
+       */
+       function updateAssetList() {
+           try {
+               //try to open the file. If it exists, loop through each asset
+               //and append it to the div
+               var current = $('#file-input').text();
+               var trimm_json_path = path.join(current, 'Assets/vendor/trimm.json');
+               data = JSON.parse(fs.readFileSync(trimm_json_path, 'utf8'));
+               console.log(data);
+               //reset to blank before appending all
+               $('#project-assets').html("");
+               for (var asset in data['assets']) {
+                   $('#project-assets').html(
+                       $('#project-assets').html() +
+                       "<p class='assetListItem'>" + asset + '</p>'
+                   );
+               }
+           } catch(err) {
+               //trimm.json does not exist yet
+               $('#project-assets').html("<p id='noAssets'>No Assets in Project</p>");
+           }
+
+       }
 
        </script>
 </html>
