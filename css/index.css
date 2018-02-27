@@ -8,6 +8,17 @@ h3 {
     font-weight: 400;
 }
 
+p {
+    font-weight: 400;
+    color: white;
+    font-size: 17px;
+}
+
+.label {
+    text-align: center;
+    margin-top: 10px;
+}
+
 #projectSelectorTitle {
     margin-top: 50px;
     margin-left: 15px;
@@ -66,37 +77,44 @@ h3 {
     top: 0;
 }
 
-#project-assets {
-    margin-top: 0px;
-    height: 0px;
+#assetsDiv {
     overflow: hidden;
     transition: 0.2s ease all;
-    top: -100vh;
+}
+
+#project-assets {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 5px;
+    margin-top: 0px;
+}
+
+#trimm_pull {
+    margin-bottom: 0px;
+    margin-top: 10px;
 }
 
 input.toggle {
      display: none;
 }
 
-input.toggle ~ #project-assets {
+input.toggle ~ #assetsDiv {
      height: 0px;
      overflow: hidden;
 }
 
-input.toggle:checked ~ #project-assets {
+input.toggle:checked ~ #assetsDiv {
      overflow-y: scroll;
-     background-color: rgba(255, 255, 255, 0.1);
-     border-radius: 5px;
-     height: 80px;
+     height: 140px;
 }
 
 #assetListTrigger {
     padding: 3px 0px;
     border-radius: 5px;
     -webkit-user-select: none;
-    font-size: 15px;
+    font-size: 17px;
     margin-top: 2px;
     margin-bottom: 2px;
+    border: 2.5px solid rgba(255, 255, 255, 0.1);
 }
 
 #assetListTrigger:hover {
@@ -107,6 +125,11 @@ input.toggle:checked ~ #project-assets {
     width: 100%;
     float: left;
 }
+
+#install {
+    width: 100%;
+}
+
 .searchItem:hover  p{
     background-color: hsla(0, 0%, 100%, .18);
     cursor: pointer;
@@ -134,12 +157,6 @@ h2 {
     color: white;
     margin: 0px;
     text-align: center;
-}
-
-p {
-    font-weight: 400;
-    color: white;
-    font-size: 17px;
 }
 
 button {
@@ -272,6 +289,73 @@ textarea {
     color: white;
     display: inline-block;
     padding: 6px 4px;
+}
+
+#uploadFormDiv {
+    transition: 0.3s ease all;
+}
+
+#options {
+    transition: 0.3s ease all;
+}
+
+input.toggleDownload {
+    display: none;
+}
+
+input.toggleDownload ~ #options {
+    height: 0px;
+    overflow: hidden;
+}
+
+input.toggleDownload:checked ~ #options{
+    height: 50px;
+    overflow-y: scroll;
+}
+
+#install {
+    text-align: center;
+}
+
+#downloadTrigger {
+    padding: 3px 0px;
+    border-radius: 5px;
+    -webkit-user-select: none;
+    font-size: 17px;
+    margin-top: 2px;
+    margin-bottom: 2px;
+    border: 2.5px solid rgba(255, 255, 255, 0.1);
+}
+
+#downloadTrigger:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+input.toggleUpload {
+    display: none;
+}
+
+input.toggleUpload ~ #uploadFormDiv {
+    height: 0px;
+    overflow: hidden;
+}
+
+input.toggleUpload:checked ~ #uploadFormDiv{
+    height: 100px;
+}
+
+#uploadFormTrigger {
+    padding: 3px 0px;
+    border-radius: 5px;
+    -webkit-user-select: none;
+    font-size: 17px;
+    margin-top: 2px;
+    margin-bottom: 2px;
+    border: 2.5px solid rgba(255, 255, 255, 0.1);
+}
+
+#uploadFormTrigger:hover {
+    background-color: rgba(255, 255, 255, 0.1);
 }
 
 .assetListItem {

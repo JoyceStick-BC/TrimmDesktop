@@ -35,33 +35,45 @@
 
       <input type="checkbox" class="toggle" name="assetListState" id="assetListState">
       <label for="assetListState">
-          <p id="assetListTrigger">View Project's Assets +</p>
+          <p id="assetListTrigger" class="label">View Project's Assets +</p>
       </label>
-      <div id="project-assets">
+      <div id="assetsDiv">
+          <button type="button" name="button" id="trimm_pull">Pull All Assets</button>
+          <p id="pull-progress"></p>
+          <div id="project-assets">
 
+          </div>
       </div>
 
       <div id="trimm-download">
+          <input type="checkbox" class="toggleDownload" name="downloadState" id="downloadState">
+          <label for="downloadState">
+              <p id="downloadTrigger" class="label">Download Assets +</p>
+          </label>
           <div id="options" style="display:none">
-              <p>Download All Project Assets:</p>
-              <button type="button" name="button" id="trimm_pull">Trimm Pull</button>
-              <p id="pull-progress"></p>
-              <p>Download New Asset:</p>
-              <input type="text" id="bundlename" placeholder="username/bundlename">
-              <button type="button" name="button" id="trimm_install">Trimm Install</button>
+              <div id="install">
+                  <input type="text" id="bundlename" placeholder="search users/bundles">
+                  <button type="button" name="button" id="trimm_install">Trimm Install</button>
+              </div>
               <div id="results">
 
-	          </div>
+             </div>
               <p id="install-progress"></p>
           </div>
-          <p>Upload Bundle</p>
-          <form id="upload-form" method="post" enctype="multipart/form-data">
-              <input type="file" name="fileToUpload" value="" id="fileToUpload" class="inputFile">
-              <label for="fileToUpload">Choose a file</label>
-              <input type="submit" value="Upload Bundle" name="submit" id="submitFile">
-              <label for="submitFile" id="upload-file-name"></label>
-              <textarea name="description" rows="2" cols="42" id="description" placeholder="Bundle Description"></textarea>
-          </form>
+          <input type="checkbox" class="toggleUpload" name="uploadFormState" id="uploadFormState">
+          <label for="uploadFormState">
+              <p id="uploadFormTrigger" class="label">Upload Assets +</p>
+          </label>
+          <div id="uploadFormDiv">
+              <form id="upload-form" method="post" enctype="multipart/form-data">
+                  <input type="file" name="fileToUpload" value="" id="fileToUpload" class="inputFile">
+                  <label for="fileToUpload">Choose a file</label>
+                  <input type="submit" value="Upload Bundle" name="submit" id="submitFile">
+                  <label for="submitFile" id="upload-file-name"></label>
+                  <textarea name="description" rows="2" cols="42" id="description" placeholder="Bundle Description"></textarea>
+              </form>
+          </div>
+
       </div>
    </body>
    <script type="text/javascript">
@@ -271,6 +283,7 @@
        */
        $('#bundlename').on('input', function() {
            //get textbox value
+           $('#options').css('height', 'auto');
 			var val = $('#bundlename').val();
 			if (val == "") {
 				//if the input is empty, clear the results
@@ -326,6 +339,15 @@
           var filename = $('#fileToUpload').val().split('\\').pop();
           $('#upload-file-name').text(filename);
        });
+
+       $('.label').click(function(event) {
+           var length = $(this).text().length;
+           if ($(this).text().slice(-1) == '+') {
+               $(this).text($(this).text().substring(0, length-2) + ' -');
+           } else {
+               $(this).text($(this).text().substring(0, length-2) + ' +');
+           }
+       })
 
        /*
         Update the asset list to match the current projects trimm.json. If it does
