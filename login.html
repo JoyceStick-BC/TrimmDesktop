@@ -11,6 +11,7 @@
 
         </div>
         <h3>Sign in to Trimm</h3>
+        <p id="login-errors"></p>
         <form action="" method="post" id="login-form">
             <input type="text" name="username" id="username">
             <input type="password" name="password" id="password">
@@ -60,6 +61,7 @@
                 postAuthCode(success);
             } else {
                 console.log('Failed auth');
+                $('#login-errors').text('Incorrect username/password!');
             }
             event.preventDefault();
         });
@@ -104,10 +106,12 @@
                     console.log('failed');
                 }
                 data['authCode'] = code;
+                data['email'] = $('#username').val();
                 fs.writeFile(initPath, JSON.stringify(data));
-                window.location.replace('index.html')
+                window.location.replace('index.html');
             } else {
                 console.log('Failed final key request');
+                $('#login-errors').text('Unable to verify code');
             }
 
         }

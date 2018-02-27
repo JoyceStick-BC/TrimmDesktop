@@ -43,6 +43,12 @@ input[type=submit]:hover {
     transition: 0.1s ease all;
 }
 
+p {
+    font-weight: 400;
+    color: white;
+    font-size: 17px;
+}
+
 #drag {
     -webkit-user-select: none;
     -webkit-app-region: drag;

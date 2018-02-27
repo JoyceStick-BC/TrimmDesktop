@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Redirect</title>
+    </head>
+    <body style="background-color: #20176f;outline: none;">
+
+    </body>
+    <script type="text/javascript">
+        var fs = require("fs");
+        var path = require('path');
+        var initPath = path.join('./', "init.json");
+        var firstWindow = '';
+        var data;
+        let $ = require('jquery');
+        try {
+            data = JSON.parse(fs.readFileSync(initPath, 'utf8'));
+        }
+        catch(e) {
+            console.log('failed');
+        }
+        if (data.hasOwnProperty('authCode')) {
+            var form_data = new FormData();
+            form_data.append('email', data['email']);
+            form_data.append('code', data['authCode']);
+            $.ajax({
+                 url: 'http://localhost/trimm/public/api/check-authCode',
+                 dataType: 'text',
+                 cache: false,
+                 contentType: false,
+                 processData: false,
+                 data: form_data,
+                 type: 'post',
+                 async: false,
+                 success: function(php_script_response){
+                     //get final key
+                     code = JSON.parse(php_script_response)['success'];
+                     console.log(code);
+                 },
+                 error: function(xhr, status, error) {
+                     code = false;
+                 }
+            });
+
+            if (code) {
+                window.location.replace('index.html');
+            } else {
+                window.location.replace('login.html');
+            }
+        } else {
+            window.location.replace('login.html');
+        }
+    </script>
+</html>
