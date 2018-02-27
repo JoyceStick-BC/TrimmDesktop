@@ -10,10 +10,11 @@
         <div id="drag">
 
         </div>
+        <h3>Sign in to Trimm</h3>
         <form action="" method="post" id="login-form">
             <input type="text" name="username" id="username">
-            <input type="text" name="password" id="password">
-            <button type="submit" name="button"></button>
+            <input type="password" name="password" id="password">
+            <input type="submit" name="" value="Sign in">
         </form>
     </body>
     <script type="text/javascript">
@@ -104,6 +105,7 @@
                 }
                 data['authCode'] = code;
                 fs.writeFile(initPath, JSON.stringify(data));
+                window.location.replace('index.html')
             } else {
                 console.log('Failed final key request');
             }
