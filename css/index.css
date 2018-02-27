@@ -66,8 +66,42 @@ h3 {
     top: 0;
 }
 
-#savedProjects {
+#project-assets {
+    margin-top: 0px;
+    height: 0px;
+    margin: .2rem;
+    overflow: hidden;
+    transition: 0.2s ease all;
+    top: -100vh;
+}
 
+input.toggle {
+     display: none;
+}
+
+input.toggle ~ #project-assets {
+     height: 0px;
+     overflow: hidden;
+}
+
+input.toggle:checked ~ #project-assets {
+     overflow-y: scroll;
+     background-color: rgba(255, 255, 255, 0.1);
+     border-radius: 5px;
+     height: 80px;
+}
+
+#assetListTrigger {
+    padding: 3px 0px;
+    border-radius: 5px;
+    -webkit-user-select: none;
+    font-size: 15px;
+    margin-top: 2px;
+    margin-bottom: 1px;
+}
+
+#assetListTrigger:hover {
+    background-color: rgba(255, 255, 255, 0.1);
 }
 
 #trimm-download{
@@ -245,6 +279,8 @@ textarea {
     font-size: 12px;
     padding: 2px 0px;
     border-radius: 5px;
+    margin: 0;
+    margin-bottom: 5px;
 }
 
 .assetListItem:hover {
