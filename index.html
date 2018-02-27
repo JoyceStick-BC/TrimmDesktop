@@ -67,7 +67,7 @@
           <div id="uploadFormDiv">
               <form id="upload-form" method="post" enctype="multipart/form-data">
                   <input type="file" name="fileToUpload" value="" id="fileToUpload" class="inputFile">
-                  <label for="fileToUpload">Choose a file</label>
+                  <label for="fileToUpload" id="fileLabel">Choose a file</label>
                   <input type="submit" value="Upload Bundle" name="submit" id="submitFile">
                   <label for="submitFile" id="upload-file-name"></label>
                   <textarea name="description" rows="2" cols="42" id="description" placeholder="Bundle Description"></textarea>
@@ -347,6 +347,13 @@
            } else {
                $(this).text($(this).text().substring(0, length-2) + ' +');
            }
+       });
+
+       /*
+        Remove jQuery-imposed css so that the checkbox animation can work properly
+       */
+       $('#downloadTrigger').click(function() {
+           $('#options').removeAttr('style');
        })
 
        /*

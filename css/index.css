@@ -16,7 +16,7 @@ p {
 
 .label {
     text-align: center;
-    margin-top: 10px;
+    margin-top: 100px;
 }
 
 #projectSelectorTitle {
@@ -82,15 +82,15 @@ p {
     transition: 0.2s ease all;
 }
 
-#project-assets {
-    background-color: rgba(255, 255, 255, 0.1);
-    border-radius: 5px;
-    margin-top: 0px;
+#project-assets  p {
+    color: black;
+    margin-left: 5px;
 }
 
 #trimm_pull {
     margin-bottom: 0px;
     margin-top: 10px;
+    margin-left: 4px;
 }
 
 input.toggle {
@@ -105,6 +105,8 @@ input.toggle ~ #assetsDiv {
 input.toggle:checked ~ #assetsDiv {
      overflow-y: scroll;
      height: 140px;
+     background-color: white;
+     border-radius: 5px;
 }
 
 #assetListTrigger {
@@ -131,21 +133,23 @@ input.toggle:checked ~ #assetsDiv {
 }
 
 .searchItem:hover  p{
-    background-color: hsla(0, 0%, 100%, .18);
+    background-color: #DCDCDC;
     cursor: pointer;
     border-radius: 5px;
 }
 
 .searchItem {
-    width: 100%;
+
 }
 
 .searchItem p {
-    width: 100%;
+    width: 96.5%;
     font-size: 13px;
     padding: 4px 0px;
     margin: 0;
     margin-top: 3px;
+    color: black;
+    margin-left: 5px;
 }
 
 #results {
@@ -207,6 +211,10 @@ input[type=file] {
     font-family: 'Open Sans', sans-serif;
 }
 
+#fileLabel {
+    margin-left: 5px;
+}
+
 input[type=submit] {
     background-color: #614cdb;
     border:none;
@@ -251,8 +259,9 @@ textarea {
     outline: none;
     display: block;
     font-size: 13px;
-    width: 98%;
+    width: 95%;
     margin-bottom: 50px;
+    margin-left: 5px;
 }
 
 .inputFile {
@@ -311,6 +320,8 @@ input.toggleDownload ~ #options {
 input.toggleDownload:checked ~ #options{
     height: 50px;
     overflow-y: scroll;
+    background-color: white;
+    border-radius: 5px;
 }
 
 #install {
@@ -342,6 +353,8 @@ input.toggleUpload ~ #uploadFormDiv {
 
 input.toggleUpload:checked ~ #uploadFormDiv{
     height: 100px;
+    background-color: white;
+    border-radius: 5px;
 }
 
 #uploadFormTrigger {
