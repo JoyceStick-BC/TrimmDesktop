@@ -69,7 +69,6 @@ h3 {
 #project-assets {
     margin-top: 0px;
     height: 0px;
-    margin: .2rem;
     overflow: hidden;
     transition: 0.2s ease all;
     top: -100vh;
@@ -97,7 +96,7 @@ input.toggle:checked ~ #project-assets {
     -webkit-user-select: none;
     font-size: 15px;
     margin-top: 2px;
-    margin-bottom: 1px;
+    margin-bottom: 2px;
 }
 
 #assetListTrigger:hover {
