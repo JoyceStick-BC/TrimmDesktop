@@ -39,6 +39,7 @@
       </label>
       <div id="assetsDiv">
           <button type="button" name="button" id="trimm_pull">Pull All Project Assets</button>
+          <button type="button" name="button" id="delete-asset" style="display:none;margin-left:105px">Delete</button>
           <p id="pull-progress"></p>
           <div id="project-assets">
 
@@ -342,6 +343,9 @@
           $('#upload-file-name').text(filename);
        });
 
+       /*
+        Show + for opening drop down, - for closing
+       */
        $('.label').click(function(event) {
            var length = $(this).text().length;
            if ($(this).text().slice(-1) == '+') {
@@ -362,11 +366,36 @@
         Delete clicked item
        */
        $('.assetListItem').click(function(event) {
+           $('#pull-progress').css('display', 'none');
+           $('#delete-asset').css('display', 'inline-block');
            var item = $(event.target).closest('.assetListItem');
-           console.log(item.text());
-           /*
-            TODO run trimm delete function
-           */
+           item.css('background-color', '#DCDCDC');
+       });
+
+       $('#delete-asset').click(function() {
+          //use node's child_process to send data to trimm.py
+          var spawn = require('child_process').spawn;
+          $('.assetListItem').each(function() {
+              if ($(this).css('background-color') == 'rgb(220, 220, 220)') {
+                  console.log('delete: ' + $(this).text());
+                  //pass py file path and data to send to it
+                  var py = spawn('python', ['./TrimmDesktop/trimm.py', 'remove_asset', $('#file-input').text(), $(this).text()]);
+                  //handle output from python
+                  py.stdout.on('data', function(data){
+                      var response = new TextDecoder("utf-8").decode(data);
+                      console.log(response);
+                  });
+                  //handle errors from python
+                  py.stderr.on('data', function(data) {
+                       console.log(data.toString());
+                   });
+                   //listen for termination of py script
+                   py.stdout.on('end', function(data) {
+                       //update the asset list drop-down
+                       updateAssetList();
+                   });
+              }
+          });
        });
 
        /*

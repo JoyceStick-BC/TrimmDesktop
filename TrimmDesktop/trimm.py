@@ -88,6 +88,26 @@ def delete(path):
                 if not os.listdir(new_path):
                     os.rmdir(new_path)
 
+def remove_asset(trimm_json_path, bundle_path, asset_to_delete):
+    trimm_json = ""
+    with open(trimm_json_path, 'r') as trimm_file:
+        trimm_json = json.load(trimm_file)
+        trimm_assets = trimm_json["assets"]
+
+        trimm_assets.pop(asset_to_delete)
+        trimm_json["assets"] = trimm_assets
+
+    trimm_file.close()
+
+    with open(trimm_json_path, 'w') as trimm_file:
+        json.dump(trimm_json, trimm_file)
+        print "Asset removed from trimm.json!"
+
+    trimm_file.close()
+
+    shutil.rmtree(bundle_path)
+    print "Asset removed from vendor!"
+
 def make_zips(path):
     if path is None:
         path = trimm_helper.set_path()
@@ -129,7 +149,8 @@ def make_zips(path):
                 if os.path.isdir(item_path):
                     shutil.rmtree(item_path)
 
-#download bundles
+# Handle input from index.html. sys.argv[1] will always contain the command, argv[2]
+# will contain the path, and argv[3] (if applicable) will contain the bundlename
 if sys.argv[1] == 'pull':
     path = sys.argv[2]
     path = os.path.join(path, "Assets")
@@ -140,3 +161,8 @@ elif sys.argv[1] == 'install':
     path = os.path.join(path, "Assets")
     path = os.path.join(path, "vendor")
     install(sys.argv[3], path, None)
+elif sys.argv[1] == 'remove_asset':
+    path = sys.argv[2]
+    trimm_json_path = os.path.join(path, "Assets/vendor/trimm.json")
+    bundle_path = os.path.join(path, "Assets/vendor/" + sys.argv[3])
+    remove_asset(trimm_json_path, bundle_path, sys.argv[3])
