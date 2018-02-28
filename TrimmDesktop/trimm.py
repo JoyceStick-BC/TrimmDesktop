@@ -42,6 +42,7 @@ def update(bundlename, path, version):
                 trimm_helper.download(bundlename, version, path)
 
 def pull(path):
+
     if not os.path.exists(path):
         os.makedirs(path)
         trimm_helper.create_git_ignore(path)
@@ -60,10 +61,10 @@ def pull(path):
         trimm_assets = trimm_json["assets"]
         trimm_packages = trimm_json["packages"]
 
-
         for bundlename, version in trimm_assets.items():
             if not trimm_helper.check_if_installed(bundlename, path, None):  # , version): TODO READD version support
                 trimm_helper.download(bundlename, None, path)
+
         for bundlename, version in trimm_packages.items():
             if not trimm_helper.check_if_installed(bundlename, path, None):  # , version): TODO READD version support
                 trimm_helper.download(bundlename, None, path)
@@ -138,5 +139,4 @@ elif sys.argv[1] == 'install':
     path = sys.argv[2]
     path = os.path.join(path, "Assets")
     path = os.path.join(path, "vendor")
-    print path
     install(sys.argv[3], path, None)

@@ -132,6 +132,7 @@
            var py = spawn('python', ['./TrimmDesktop/trimm.py', 'pull', $('#file-input').text()]);
            //handle output from python
            py.stdout.on('data', function(data){
+               console.log(data);
                var response = new TextDecoder("utf-8").decode(data);
                console.log(response);
            });

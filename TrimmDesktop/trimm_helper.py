@@ -153,11 +153,8 @@ def check_if_installed(bundlename, path, requested_version):
             return True
 
         print("Version " + version + " of the bundle named " + bundlename
-              + " already exists! (To keep both bundles, cancel this operations and use 'trimm install " + bundlename
-              + " --v=" + str(requested_version) + "*')")
-        response = raw_input("Do you want to update this bundle to version " + str(requested_version) + "? (y/n)")
-        if response == "n" or response == "n\r":
-            return True
+              + " already exists! Skipping download.")
+        return True
 
     return False
 
