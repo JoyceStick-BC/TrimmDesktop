@@ -38,7 +38,7 @@
           <p id="assetListTrigger" class="label">View Project Assets +</p>
       </label>
       <div id="assetsDiv">
-          <button type="button" name="button" id="trimm_pull">Pull All Assets</button>
+          <button type="button" name="button" id="trimm_pull">Pull All Project Assets</button>
           <p id="pull-progress"></p>
           <div id="project-assets">
 
@@ -143,7 +143,7 @@
            });
            //listen for termination of py script
            py.stdout.on('end', function(data) {
-               $('#pull-progress').text("Completed Pulling Assets");
+               $('#pull-progress').text("Completed");
            });
        });
 
