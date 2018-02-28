@@ -12,7 +12,7 @@
       <div id="topBar">
 
       </div>
-      <h2><b>Trimm</b></h2>
+      <h2 id="title">trimm3d</h2>
       <input type="checkbox" name="projectSelectorState" id="projectSelectorState">
       <div id="projectSelector">
           <h3 id="projectSelectorTitle">Select Project</h3>
@@ -35,7 +35,7 @@
 
       <input type="checkbox" class="toggle" name="assetListState" id="assetListState">
       <label for="assetListState">
-          <p id="assetListTrigger" class="label">View Project's Assets +</p>
+          <p id="assetListTrigger" class="label">View Project Assets +</p>
       </label>
       <div id="assetsDiv">
           <button type="button" name="button" id="trimm_pull">Pull All Assets</button>
@@ -48,12 +48,12 @@
       <div id="trimm-download">
           <input type="checkbox" class="toggleDownload" name="downloadState" id="downloadState">
           <label for="downloadState">
-              <p id="downloadTrigger" class="label">Download Assets +</p>
+              <p id="downloadTrigger" class="label">Download an Asset +</p>
           </label>
           <div id="options" style="display:none">
               <div id="install">
                   <input type="text" id="bundlename" placeholder="search users/bundles">
-                  <button type="button" name="button" id="trimm_install">Trimm Install</button>
+                  <button type="button" name="button" id="trimm_install">Install</button>
               </div>
               <div id="results">
 
@@ -62,7 +62,7 @@
           </div>
           <input type="checkbox" class="toggleUpload" name="uploadFormState" id="uploadFormState">
           <label for="uploadFormState">
-              <p id="uploadFormTrigger" class="label">Upload Assets +</p>
+              <p id="uploadFormTrigger" class="label">Upload an Asset +</p>
           </label>
           <div id="uploadFormDiv">
               <form id="upload-form" method="post" enctype="multipart/form-data">
@@ -117,7 +117,7 @@
        //set current project to init.json's currentProject
        for (var current in currentProject) {
            $('#file-input').text(current);
-           $('#current').html("<b>Currrent Project: " + currentProject[current] + "</b>");
+           $('#current').html("Currrent Project: " + currentProject[current]);
            $('#options').css('display', 'block');
            updateAssetList();
        }
@@ -137,12 +137,13 @@
            });
            //handle errors from python
            py.stderr.on('data', function(data) {
-                console.log(data.toString());
-                $('#pull-progress').text("Pulling assets: " + data.toString());
+               var response = data.toString();
+                console.log(response);
+                $('#pull-progress').text("Pulling assets: " + response.substring(0, response.indexOf('%')+1));
            });
            //listen for termination of py script
            py.stdout.on('end', function(data) {
-               $('#pull-progress').text("Pulling assets: 100%");
+               $('#pull-progress').text("Completed Pulling Assets");
            });
        });
 
@@ -354,7 +355,18 @@
        */
        $('#downloadTrigger').click(function() {
            $('#options').removeAttr('style');
-       })
+       });
+
+       /*
+        Delete clicked item
+       */
+       $('.assetListItem').click(function(event) {
+           var item = $(event.target).closest('.assetListItem');
+           console.log(item.text());
+           /*
+            TODO run trimm delete function
+           */
+       });
 
        /*
         Update the asset list to match the current projects trimm.json. If it does

@@ -44,6 +44,12 @@ p {
     -webkit-app-region: drag;
 }
 
+#title {
+    border-bottom: 2.5px solid rgba(255, 255, 255, 0.1);
+    padding: 6px 0px;
+    margin-bottom: 0px;
+}
+
 #projectSelectorTrigger {
     width: 100%;
     padding: 4px 0;
@@ -51,7 +57,13 @@ p {
     background-color: transparent;
     transition: 0.2s ease all;
     cursor: pointer;
-    margin-top: 15px;
+    margin-top: 3px;
+    margin-bottom: 3px;
+}
+
+#current {
+    font-size: 15px;
+    text-align: center;
 }
 
 #projectSelectorTrigger:hover {
@@ -67,6 +79,7 @@ p {
     height: 100vh;
     background-color: rgba(255, 255, 255, 1);
     transition: 0.2s ease all;
+    margin-top: 0px;
 }
 
 #projectSelectorState {
@@ -88,9 +101,24 @@ p {
 }
 
 #trimm_pull {
-    margin-bottom: 0px;
+    margin-bottom: 10px;
     margin-top: 10px;
     margin-left: 4px;
+}
+
+#pull-progress {
+    color:black;
+    font-size: 15px;
+    padding: 0px;
+}
+
+#trimm_pull, #pull-progress {
+    display: inline-block;
+}
+
+#project-assets {
+    max-height: 90px;
+    overflow-y: scroll;
 }
 
 input.toggle {
@@ -130,6 +158,12 @@ input.toggle:checked ~ #assetsDiv {
 
 #install {
     width: 100%;
+}
+
+#install-progress {
+    font-size: 15px;
+    color: black;
+    margin-left: 5px;
 }
 
 .searchItem:hover  p{
@@ -176,7 +210,7 @@ button {
 }
 
 button:hover {
-    background-color: hsla(0, 0%, 100%, .18);
+    background-color: #20176f;
     transition: 0.1s ease all;
 
 }
@@ -228,7 +262,7 @@ input[type=submit] {
 
 input[type=submit]:hover {
     cursor: pointer;
-    background-color: hsla(0, 0%, 100%, .18);
+    background-color: #20176f;
     transition: 0.1s ease all;
 }
 
@@ -287,7 +321,7 @@ textarea {
 
 .inputFile + label:hover {
     cursor: pointer;
-    background-color: hsla(0, 0%, 100%, .18);
+    background-color: #20176f;
     transition: 0.1s ease all;
 }
 
@@ -333,7 +367,7 @@ input.toggleDownload:checked ~ #options{
     border-radius: 5px;
     -webkit-user-select: none;
     font-size: 17px;
-    margin-top: 2px;
+    margin-top: 5px;
     margin-bottom: 2px;
     border: 2.5px solid rgba(255, 255, 255, 0.1);
 }
@@ -362,7 +396,7 @@ input.toggleUpload:checked ~ #uploadFormDiv{
     border-radius: 5px;
     -webkit-user-select: none;
     font-size: 17px;
-    margin-top: 2px;
+    margin-top: 5px;
     margin-bottom: 2px;
     border: 2.5px solid rgba(255, 255, 255, 0.1);
 }
@@ -377,8 +411,10 @@ input.toggleUpload:checked ~ #uploadFormDiv{
     border-radius: 5px;
     margin: 0;
     margin-bottom: 5px;
+    width: 96.6%;
 }
 
 .assetListItem:hover {
-    background-color: rgba(255, 255, 255, 0.1);
+    background-color: #DCDCDC;
+    cursor: pointer;
 }
