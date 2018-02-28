@@ -140,7 +140,6 @@
            //handle errors from python
            py.stderr.on('data', function(data) {
                var response = data.toString();
-                console.log(response);
                 $('#pull-progress').text("Pulling assets: " + response.substring(0, response.indexOf('%')+1));
            });
            //listen for termination of py script
@@ -365,13 +364,16 @@
        /*
         Delete clicked item
        */
-       $('.assetListItem').click(function(event) {
+       $(document.body).on('click', '.assetListItem', function(event) {
            $('#pull-progress').css('display', 'none');
            $('#delete-asset').css('display', 'inline-block');
            var item = $(event.target).closest('.assetListItem');
            item.css('background-color', '#DCDCDC');
        });
 
+       /*
+        Delete all highlighted assets from vendor as well as trimm.json
+       */
        $('#delete-asset').click(function() {
           //use node's child_process to send data to trimm.py
           var spawn = require('child_process').spawn;
@@ -391,7 +393,8 @@
                    });
                    //listen for termination of py script
                    py.stdout.on('end', function(data) {
-                       //update the asset list drop-down
+                       //update the asset list drop-down and hide delete button
+                       $('#delete-asset').css('display', 'none');
                        updateAssetList();
                    });
               }

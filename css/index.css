@@ -19,6 +19,10 @@ p {
     margin-top: 100px;
 }
 
+.label:hover {
+    cursor: pointer;
+}
+
 #projectSelectorTitle {
     margin-top: 50px;
     margin-left: 15px;
