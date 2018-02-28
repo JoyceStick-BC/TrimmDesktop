@@ -362,6 +362,16 @@
        });
 
        /*
+        Remove selected items as well as delete button
+       */
+       $('#assetListTrigger').click(function() {
+           $('#delete-asset').css('display', 'none');
+           $('.assetListItem').each(function() {
+               $(this).css('background-color', 'white');
+           });
+       });
+
+       /*
         Delete clicked item
        */
        $(document.body).on('click', '.assetListItem', function(event) {
