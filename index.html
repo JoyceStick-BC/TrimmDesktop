@@ -238,7 +238,7 @@
            }
            //add folder to folders in init.json
            data['folders'][filepath[0] + "/"] = projectName;
-           console.log(data);
+           data['currentProject'][filepath[0] + "/"] = projectName;
            fs.writeFile(initPath, JSON.stringify(data));
            //add folder to folder list
            $('#savedProjects').html(
@@ -250,6 +250,8 @@
                projectName +
                "</button>"
            );
+           //update list of assets to newly selected folder
+           updateAssetList();
        });
 
        /*
