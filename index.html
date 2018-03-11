@@ -73,6 +73,7 @@
                   <label for="submitFile" id="upload-file-name"></label>
                   <textarea name="description" rows="2" cols="42" id="description" placeholder="Bundle Description"></textarea>
               </form>
+              <p id="upload-errors" style="color:black;font-size:12px;margin-top:0;"></p>
           </div>
 
       </div>
@@ -101,6 +102,7 @@
        }
 
        var authCode = data["authCode"];
+       var email = data["email"];
        //build html of saved projects in drop-down
        currentProject = data['currentProject'];
        data = data['folders'];
@@ -165,10 +167,12 @@
            //handle errors from python
            py.stderr.on('data', function(data) {
                 console.log(data.toString());
+                //set install progress to the percentage recieved from python
                 $('#install-progress').text("Downloading: " + data.toString());
             });
             //listen for termination of py script
             py.stdout.on('end', function(data) {
+                //set download progress to the percentage recieved from python
                 $('#install-progress').text("Downloading: 100%");
                 //update the asset list drop-down
                 updateAssetList();
@@ -184,9 +188,14 @@
            //grab file data and add it to form_data
            var file_data = $('#fileToUpload').prop('files')[0];
            var form_data = new FormData();
+           if (file_data == null || $('#description').val() == null) {
+               //either the file or description is missing
+               $('#upload-errors').text('Missing file input or description');
+               return;
+           }
            form_data.append('description', $('#description').val())
            form_data.append('fileToUpload', file_data);
-           form_data.append('username', 'joycestick');
+           form_data.append('username', email);
            form_data.append('authCode', authCode);
            //ajax call to server with form_data
            $.ajax({
