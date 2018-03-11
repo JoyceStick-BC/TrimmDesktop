@@ -206,8 +206,8 @@
                 processData: false,
                 data: form_data,
                 type: 'post',
-                success: function(php_script_response){
-                    console.log(php_script_response);
+                success: function(response){
+                    console.log(response);
                 },
                 error: function(xhr, status, error) {
                     console.log(error);
@@ -441,6 +441,9 @@
                        $('#project-assets').html() +
                        "<p class='assetListItem'>" + asset + '</p>'
                    );
+               }
+               if ($('#project-assets').html() == "") {
+                   $('#project-assets').html("<p class='assetListItem'>No Assets in Project</p>"); 
                }
            } catch(err) {
                //trimm.json does not exist yet
