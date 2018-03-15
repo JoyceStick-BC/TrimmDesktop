@@ -261,7 +261,7 @@ input[type=file] {
 }
 
 input[type=submit] {
-    background-color: #614cdb;
+    background-color: #808386;
     border:none;
     color: white;
     border-radius: 5px;
@@ -269,6 +269,7 @@ input[type=submit] {
     font-family: 'Open Sans', sans-serif;
     font-weight: 400;
     outline: none;
+    pointer-events: none;
 }
 
 input[type=submit]:hover {

@@ -188,7 +188,7 @@
            //grab file data and add it to form_data
            var file_data = $('#fileToUpload').prop('files')[0];
            var form_data = new FormData();
-           if (file_data == null || $('#description').val() == null) {
+           if (file_data == null || $('#description').val() == "") {
                //either the file or description is missing
                $('#upload-errors').text('Missing file input or description');
                return;
@@ -389,6 +389,7 @@
            $('#pull-progress').css('display', 'none');
            $('#delete-asset').css('display', 'inline-block');
            var item = $(event.target).closest('.assetListItem');
+           //if the background-color is already grey, set it back to white if clicked again
            if (item.css('background-color') == 'rgb(220, 220, 220)') {
                item.css('background-color', 'white');
            } else {
@@ -424,6 +425,24 @@
                    });
               }
           });
+       });
+
+       /*
+        Check for input/change on file upload selection and description. If
+        both are not empty, update the css of the upload button to be clickable
+       */
+       $('#description, #fileToUpload').on('input change', function() {
+          if ($('#fileToUpload').val() != '' && $('#description').val() != '') {
+              $('#submitFile').css({
+                  'pointer-events' : 'auto',
+                  'background-color' : '#614cdb'
+              });
+          } else {
+              $('#submitFile').css({
+                  'pointer-events' : 'none',
+                  'background-color' : '#808386'
+              });
+          }
        });
 
        /*
