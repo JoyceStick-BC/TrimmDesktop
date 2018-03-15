@@ -389,7 +389,11 @@
            $('#pull-progress').css('display', 'none');
            $('#delete-asset').css('display', 'inline-block');
            var item = $(event.target).closest('.assetListItem');
-           item.css('background-color', '#DCDCDC');
+           if (item.css('background-color') == 'rgb(220, 220, 220)') {
+               item.css('background-color', 'white');
+           } else {
+               item.css('background-color', '#DCDCDC');
+           }
        });
 
        /*
@@ -443,7 +447,7 @@
                    );
                }
                if ($('#project-assets').html() == "") {
-                   $('#project-assets').html("<p class='assetListItem'>No Assets in Project</p>"); 
+                   $('#project-assets').html("<p class='assetListItem'>No Assets in Project</p>");
                }
            } catch(err) {
                //trimm.json does not exist yet

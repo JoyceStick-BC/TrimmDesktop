@@ -426,6 +426,7 @@ input.toggleUpload:checked ~ #uploadFormDiv{
     margin: 0;
     margin-bottom: 5px;
     width: 96.6%;
+    -webkit-user-select: none;
 }
 
 .assetListItem:hover {
