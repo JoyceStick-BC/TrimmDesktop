@@ -20,6 +20,7 @@
     "electron": "1.8.2"
   },
   "dependencies": {
+    "fbx2gltf": "^0.9.4",
     "jquery": "^3.3.1",
     "md5": "^2.2.1",
     "text-encoding": "^0.6.4"
