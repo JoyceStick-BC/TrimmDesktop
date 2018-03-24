@@ -20,9 +20,14 @@
     "electron": "1.8.2"
   },
   "dependencies": {
+    "base64-img": "^1.0.4",
     "fbx2gltf": "^0.9.4",
     "jquery": "^3.3.1",
     "md5": "^2.2.1",
-    "text-encoding": "^0.6.4"
+    "text-encoding": "^0.6.4",
+    "three": "^0.91.0",
+    "three-fbx-loader": "^1.0.3",
+    "unzip": "^0.1.11",
+    "unzip2": "^0.2.5"
   }
 }

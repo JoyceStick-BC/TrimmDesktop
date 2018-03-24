@@ -10,7 +10,7 @@ function createWindow() {
 
    win.webContents.send('init-data', 'hello!');
    win.loadURL(url.format ({
-      pathname: path.join(__dirname, 'redirect.html'),
+      pathname: path.join(__dirname, 'index.html'),
       protocol: 'file:',
       slashes: true
   }));

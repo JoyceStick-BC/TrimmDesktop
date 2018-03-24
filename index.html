@@ -6,6 +6,10 @@
       <link rel="stylesheet" href="./css/index.css">
       <link href="https://fonts.googleapis.com/css?family=Roboto:200,300,400,500" rel="stylesheet">
       <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
+      <script src="./js/three.min.js"></script>
+      <script src="./js/GLTFExporter.js"></script>
+      <script src="./js/FBXLoader.js"></script>
+      <script src="./js/inflate.min.js"></script>
    </head>
 
    <body>
@@ -90,6 +94,10 @@
        let $ = require('jquery');
        var ipcRenderer = require('electron').ipcRenderer;
        var convert = require('fbx2gltf');
+       //var three = require('three');
+       //var FBXLoader = require('three-fbx-loader');
+       var base64Img = require('base64-img');
+       var unzip = require('unzip2');
 
        //read init.json file to get saved projects and most recent project
        var path = require("path");
@@ -196,18 +204,61 @@
                return;
            }
            console.log(file_data.path);
+           var current_file;
+           var file_type;
+           var glb_path;
+           //unzip file
+           fs.createReadStream(file_data.path)
+           .pipe(unzip.Parse())
+           .on('entry', function (entry) {
+               //get filename
+               var fileName = entry.path;
+               //getting file extension
+               current_file = fileName.split('/')
+               file_type = current_file[current_file.length-1].split('.')[1];
+               //if its an fbx, write the file's data to ./Temp/output.fbx
+               if (file_type == 'fbx' || file_type == 'FBX') {
+                   console.log('found fbx!');
+                   //write data
+                   entry.pipe(fs.createWriteStream('./Temp/output.fbx'));
+                   //convert fbx to glb and write it to ./Temp/filename.glb
+                   convert('./Temp/output.fbx', './Temp/' + filename + '.gltf', ['-v', '--embed']).then(
+                      destPath => {
+                        glb_path = destPath;
+                        console.log('successfully converted gltf!')
+                      },
+                      error => {
+                        console.log(error);
+                      });
+               //if its a png, get the base64 image
+               } else if (file_type == 'png' || file_type == 'PNG' || file_type == 'jpg') {
+                   console.log('found image!');
+                   entry.pipe(fs.createWriteStream('./Temp/img.png'));
+                   var data = base64Img.base64Sync('./Temp/img.png');
+                   console.log(data);
+               }
+               //next file
+               entry.autodrain();
+           });
+
+
+
            var split = file_data.path.split('/');
            var file = split[split.length-1];
            var filename = file.split('.')[0];
 
-           convert(file_data.path, './Temp/' + filename + '.gltf', []).then(
-              destPath => {
-                console.log(destPath);
-              },
-              error => {
-                console.log(error);
-              }
-           );
+
+           /*var loader = new THREE.FBXLoader();
+
+           loader.load(file_data.path, function (object3d) {
+               console.log(object3d);
+               var exporter = new THREE.GLTFExporter();
+               exporter.parse(object3d, function (gltf) {
+                   console.log('Writing gltf data to file!');
+                   fs.writeFile('./Temp/three_test.gltf', JSON.stringify(gltf));
+               }, options );
+           });*/
+
            form_data.append('description', $('#description').val())
            form_data.append('fileToUpload', file_data);
            form_data.append('username', email);
